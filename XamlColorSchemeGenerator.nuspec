@@ -8,7 +8,7 @@
         <description>Generates color scheme xaml files while replacing certain parts of a template file.</description>
         <releaseNotes></releaseNotes>
         <authors>batzen</authors>
-        <licenseUrl>https://github.com/batzen/XamlColorSchemeGenerator/blob/master/License.txt</licenseUrl>
+        <licenseUrl>https://raw.githubusercontent.com/batzen/XamlColorSchemeGenerator/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/batzen/XamlColorSchemeGenerator</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <tags>xaml color scheme generator</tags>
