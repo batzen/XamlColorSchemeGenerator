@@ -4,7 +4,7 @@
         <id>XamlColorSchemeGenerator</id>
         <version>$Version$</version>
         <title>XamlColorSchemeGenerator</title>
-        <summary></summary>
+        <summary>Generates color scheme xaml files while replacing certain parts of a template file.</summary>
         <description>Generates color scheme xaml files while replacing certain parts of a template file.</description>
         <releaseNotes></releaseNotes>
         <authors>batzen</authors>
