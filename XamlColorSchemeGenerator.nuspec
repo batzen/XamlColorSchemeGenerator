@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+    <metadata>
+        <id>XamlColorSchemeGenerator</id>
+        <version>$Version$</version>
+        <title>XamlColorSchemeGenerator</title>
+        <summary></summary>
+        <description>Generates color scheme xaml files while replacing certain parts of a template file.</description>
+        <releaseNotes></releaseNotes>
+        <authors>batzen</authors>
+        <licenseUrl>https://github.com/batzen/XamlColorSchemeGenerator/blob/master/License.txt</licenseUrl>
+        <projectUrl>https://github.com/batzen/XamlColorSchemeGenerator</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <tags>xaml color scheme generator</tags>
+    </metadata>
+    <files>
+        <file src="bin\Release\XamlColorSchemeGenerator.exe" target="tools" />
+        <file src="bin\Release\XamlColorSchemeGenerator.pdb" target="tools" />
+    </files>
+</package>
