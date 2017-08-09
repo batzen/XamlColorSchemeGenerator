@@ -1,0 +1,39 @@
+﻿{
+  "TemplateFile": "Accent.Template.xaml",
+  "DefaultValues": {
+    "Fluent.Ribbon.Colors.IdealForegroundColor": "White",
+    "Fluent.Ribbon.Colors.DarkIdealForegroundDisabledColor": "#ADADAD",
+    "Fluent.Ribbon.Colors.ExtremeHighlightColor": "#FFFFD232",
+    "Fluent.Ribbon.Colors.DarkExtremeHighlightColor": "#FFF29536",
+    "Fluent.Ribbon.Brushes.ApplicationMenuItem.CheckBox.Background": "#FFFCF1C2",
+    "Fluent.Ribbon.Brushes.ApplicationMenuItem.CheckBox.BorderBrush": "#FFF29536"
+  },
+  "ColorSchemes": [
+    {
+      "Name": "Blue",
+      "Values": {
+        "Fluent.Ribbon.Colors.AccentBaseColor": "#FF2B579A",
+        "Fluent.Ribbon.Colors.AccentColor80": "#CC2B579A",
+        "Fluent.Ribbon.Colors.AccentColor60": "#992B579A",
+        "Fluent.Ribbon.Colors.AccentColor40": "#662B579A",
+        "Fluent.Ribbon.Colors.AccentColor20": "#332B579A",
+        "Fluent.Ribbon.Colors.HighlightColor": "#FF086F9E"
+      }
+    },
+    {
+      "Name": "Yellow",
+      "Values": {
+        "Fluent.Ribbon.Colors.AccentBaseColor": "#FFFEDE06",
+        "Fluent.Ribbon.Colors.AccentColor80": "#CCFEDE06",
+        "Fluent.Ribbon.Colors.AccentColor60": "#99FEDE06",
+        "Fluent.Ribbon.Colors.AccentColor40": "#66FEDE06",
+        "Fluent.Ribbon.Colors.AccentColor20": "#33FEDE06",
+        "Fluent.Ribbon.Colors.HighlightColor": "#FFBBA404",
+        "Fluent.Ribbon.Colors.IdealForegroundColor": "Black",
+        "Fluent.Ribbon.Colors.DarkIdealForegroundDisabledColor": "Pink",
+        "Fluent.Ribbon.Colors.ExtremeHighlightColor": "#FFFFD232",
+        "Fluent.Ribbon.Colors.DarkExtremeHighlightColor": "#FFF29536"
+      }
+    }
+  ]
+}
