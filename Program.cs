@@ -2,10 +2,7 @@
 {
     using System;
     using System.Diagnostics;
-    using System.IO;
     using System.Linq;
-    using System.Text;
-    using Newtonsoft.Json;
 
     internal class Program
     {
@@ -20,6 +17,11 @@
                 {
                     var generator = new Generator();
                     generator.Generate(args[0]);
+                }
+                else
+                {
+                    Console.WriteLine("You have pass the generator input file as a commandline parameter.");
+                    return 1;
                 }
 
                 // TODO: Add help output.
@@ -38,6 +40,7 @@
             {
                 Trace.WriteLine(e);
                 Console.WriteLine(e);
+
                 return 1;
             }
         }
