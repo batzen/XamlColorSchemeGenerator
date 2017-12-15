@@ -1,5 +1,6 @@
 ﻿namespace XamlColorSchemeGenerator
 {
+    using System;
     using System.Diagnostics;
     using System.IO;
     using System.Text;
@@ -24,41 +25,46 @@
         private void Generate(GeneratorParameters parameters, string templateDirectory, string templateContent, ColorScheme colorScheme)
         {
             var fileContent = templateContent;
-            var colorSchemeFileName = colorScheme.Name + ".xaml";
-            var colorSchemeTempFileName = colorSchemeFileName + ".tmp";
+            var colorSchemeFileName = $"{colorScheme.Name}.xaml";
+            var colorSchemeTempFileName = $"{colorSchemeFileName}_{Guid.NewGuid()}.xaml";
 
             var colorSchemeFile = Path.Combine(templateDirectory, colorSchemeFileName);
-            var colorSchemeTempFile = Path.Combine(templateDirectory, colorSchemeTempFileName);
+            var colorSchemeTempFile = Path.Combine(Path.GetTempPath(), colorSchemeTempFileName);
 
-            foreach (var colorSchemeValue in colorScheme.Values)
+            try
             {
-                fileContent = fileContent.Replace($"{{{{{colorSchemeValue.Key}}}}}", colorSchemeValue.Value);
+                foreach (var colorSchemeValue in colorScheme.Values)
+                {
+                    fileContent = fileContent.Replace($"{{{{{colorSchemeValue.Key}}}}}", colorSchemeValue.Value);
+                }
+
+                foreach (var defaultValue in parameters.DefaultValues)
+                {
+                    fileContent = fileContent.Replace($"{{{{{defaultValue.Key}}}}}", defaultValue.Value);
+                }
+
+                File.WriteAllText(colorSchemeTempFile, fileContent, Encoding.UTF8);
+
+                Trace.WriteLine($"Comparing temp file \"{colorSchemeTempFile}\" to \"{colorSchemeFile}\"");
+
+                if (File.Exists(colorSchemeFile) == false
+                    || File.ReadAllText(colorSchemeFile) != File.ReadAllText(colorSchemeTempFile))
+                {
+                    File.Copy(colorSchemeTempFile, colorSchemeFile, true);
+
+                    Trace.WriteLine($"Resource Dictionary saved to \"{colorSchemeFile}\".");
+                }
+                else
+                {
+                    Trace.WriteLine("New Resource Dictionary did not differ from existing file. No new file written.");
+                }
             }
-
-            foreach (var defaultValue in parameters.DefaultValues)
+            finally
             {
-                fileContent = fileContent.Replace($"{{{{{defaultValue.Key}}}}}", defaultValue.Value);
-            }
-
-            File.WriteAllText(colorSchemeTempFile, fileContent, Encoding.UTF8);
-
-            Trace.WriteLine($"Comparing temp file \"{colorSchemeTempFile}\" to \"{colorSchemeFile}\"");
-
-            if (File.Exists(colorSchemeFile) == false 
-                || File.ReadAllText(colorSchemeFile) != File.ReadAllText(colorSchemeTempFile))
-            {
-                File.Copy(colorSchemeTempFile, colorSchemeFile, true);
-
-                Trace.WriteLine($"Resource Dictionary saved to \"{colorSchemeFile}\".");
-            }
-            else
-            {
-                Trace.WriteLine("New Resource Dictionary did not differ from existing file. No new file written.");
-            }
-
-            if (File.Exists(colorSchemeTempFile))
-            {
-                File.Delete(colorSchemeTempFile);
+                if (File.Exists(colorSchemeTempFile))
+                {
+                    File.Delete(colorSchemeTempFile);
+                }
             }
         }
     }

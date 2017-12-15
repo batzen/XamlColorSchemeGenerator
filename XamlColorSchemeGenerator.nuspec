@@ -6,7 +6,13 @@
         <title>XamlColorSchemeGenerator</title>
         <summary>Generates color scheme xaml files while replacing certain parts of a template file.</summary>
         <description>Generates color scheme xaml files while replacing certain parts of a template file.</description>
-        <releaseNotes></releaseNotes>
+        <releaseNotes>
+            1.0.1:
+                - Fixing file access exceptions during concurrent invocation of tool
+                
+            1.0.0:
+                - Initial release
+        </releaseNotes>
         <authors>batzen</authors>
         <licenseUrl>https://raw.githubusercontent.com/batzen/XamlColorSchemeGenerator/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/batzen/XamlColorSchemeGenerator</projectUrl>
