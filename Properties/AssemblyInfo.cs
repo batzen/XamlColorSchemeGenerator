@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("XamlColorSchemeGenerator")]
-[assembly: AssemblyCopyright("Copyright © 2017 Bastian Schmidt")]
+[assembly: AssemblyCopyright("Copyright © 2017 - 2018 Bastian Schmidt")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
