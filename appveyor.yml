@@ -1,0 +1,23 @@
+# http://www.appveyor.com/docs/appveyor-yml
+
+version: 1.0.2.{build}
+configuration: Release
+
+# Install scripts. (runs after repo cloning)
+install:
+  - nuget restore
+
+build:
+  verbosity: minimal
+
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+
+artifacts:
+  - path: build/bin
+    name: XamlColorSchemeGenerator $(appveyor_build_version)
+    type: zip
