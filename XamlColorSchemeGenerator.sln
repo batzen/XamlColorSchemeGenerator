@@ -1,12 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlColorSchemeGenerator", "XamlColorSchemeGenerator.csproj", "{9572E64E-0B2F-407B-AC14-141941CB7D6E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{246A4888-9B8A-4EED-88A9-1162D7C9AF7D}"
 	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
 		pack.ps1 = pack.ps1
 		README.md = README.md
 		XamlColorSchemeGenerator.nuspec = XamlColorSchemeGenerator.nuspec
@@ -25,5 +26,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {854C6F4F-4D88-4024-BEDC-34E4FCE36013}
 	EndGlobalSection
 EndGlobal
