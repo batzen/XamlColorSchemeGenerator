@@ -3,6 +3,9 @@
 version: 1.0.2.{build}
 configuration: Release
 
+init:
+  - ps: Update-AppveyorBuild -Version "$($env:appveyor_build_version.Replace("-dev$env:appveyor_build_number", "-dev"))$($env:appveyor_build_number.PadLeft(4, '0'))"
+
 # Install scripts. (runs after repo cloning)
 install:
   - nuget restore
