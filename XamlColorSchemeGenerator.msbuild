@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+      <Root>$(MSBuildProjectDirectory)</Root>
+      <Configuration Condition="$(Configuration) == ''">Release</Configuration>
+      <PublishDirectory>$(Root)/Publish</PublishDirectory>
+      <Version Condition="$(Version) == ''">$(appveyor_build_version)</Version>
+  </PropertyGroup>
+
+  <Target Name="Restore">
+      <Message Text="Restoring packages..." Importance="High" />
+      <Exec Command="$(Root)/.paket/paket.exe restore" />
+      <Message Text="Restored packages." Importance="High" />
+  </Target>
+    
+  <Target Name="Build" DependsOnTargets="Restore">
+    <Message Text="Starting build..." Importance="High" />
+    <MSBuild Projects="$(Root)/XamlColorSchemeGenerator.sln" Properties="Configuration=$(Configuration);" />
+    <Message Text="Finished build." Importance="High" />
+  </Target>
+
+  <Target Name="ReadVersion">
+    <!-- Read assembly version from the exe -->
+    <GetAssemblyIdentity AssemblyFiles="$(Root)/bin/$(Configuration)/XamlColorSchemeGenerator.exe">
+        <Output TaskParameter="Assemblies" ItemName="XamlColorSchemeGeneratorAssembly"/>
+    </GetAssemblyIdentity>
+    <PropertyGroup>
+        <!-- Construct NuGet package version according to SemVer -->
+        <PrereleaseSuffix Condition="$(Prerelease) != ''">-dev$(Prerelease)</PrereleaseSuffix>
+        <Version Condition="$(Version) == ''">$([System.String]::new(%(XamlColorSchemeGeneratorAssembly.Version)).TrimEnd('0').TrimEnd('.'))$(PrereleaseSuffix)</Version>
+    </PropertyGroup>
+
+    <Message Text="Version: $(Version)" Importance="High" />
+  </Target>
+
+  <Target Name="EnsurePublishDir">
+    <MakeDir Directories="$(PublishDirectory)" />
+  </Target>
+  
+  <Target Name="CreateNuGetPackage" DependsOnTargets="ReadVersion; EnsurePublishDir">
+    <!-- Build NuGet package -->
+    <Exec Command="$(Root)/packages/NuGet.CommandLine/tools/NuGet.exe pack $(Root)/XamlColorSchemeGenerator.nuspec -Version $(Version) -OutputDirectory &quot;$(PublishDirectory)&quot; -Properties Configuration=$(Configuration)" />
+  </Target>
+
+  <Target Name="CreateZipPackages" DependsOnTargets="ReadVersion; EnsurePublishDir">
+    <!-- Create zip package -->
+    <Exec Command="$(Root)/packages/7-Zip.CommandLine/tools/7za.exe a -tzip -mx9 -r &quot;$(PublishDirectory)/XamlColorSchemeGenerator.$(Version).zip&quot; *.dll *.pdb *.exe *.xml"
+          WorkingDirectory="$(Root)/bin/Release" />
+  </Target>  
+
+  <Target Name="Pack" DependsOnTargets="Build; RunPack" />
+  <Target Name="RunPack" DependsOnTargets="CreateNuGetPackage; CreateZipPackages" />
+  <Target Name="CI" DependsOnTargets="Build; RunPack" />
+</Project>
