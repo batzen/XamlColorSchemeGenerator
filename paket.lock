@@ -1,0 +1,7 @@
+SPECIFIC-VERSION: FALSE
+RESTRICTION: || (== net40) (== net45) (== net462)
+NUGET
+  remote: https://www.nuget.org/api/v2
+    7-Zip.CommandLine (9.20)
+    gitlink (2.4)
+    NuGet.CommandLine (4.4.1)
