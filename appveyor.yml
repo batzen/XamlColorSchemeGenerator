@@ -2,6 +2,7 @@
 
 version: 1.0.2.{build}
 configuration: Release
+image: Visual Studio 2017
 
 build_script:
   - powershell ./build.ps1 -Target CI
