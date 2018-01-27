@@ -7,8 +7,8 @@ configuration: Release
 install:
   - nuget restore
 
-build:
-  verbosity: minimal
+build_script:
+  - ./build.ps1 -Target CI
 
 assembly_info:
   patch: true
@@ -18,6 +18,8 @@ assembly_info:
   assembly_informational_version: "{version}"
 
 artifacts:
-  - path: build/bin
-    name: XamlColorSchemeGenerator $(appveyor_build_version)
-    type: zip
+  - path: Publish\**\*.nupkg
+    name: NuGet
+
+  - path: Publish\**\*.zip
+    name: zip
