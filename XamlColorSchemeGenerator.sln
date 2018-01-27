@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlColorSchemeGenerator", "XamlColorSchemeGenerator.csproj", "{9572E64E-0B2F-407B-AC14-141941CB7D6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlColorSchemeGenerator", "src\XamlColorSchemeGenerator.csproj", "{9572E64E-0B2F-407B-AC14-141941CB7D6E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{246A4888-9B8A-4EED-88A9-1162D7C9AF7D}"
 	ProjectSection(SolutionItems) = preProject
