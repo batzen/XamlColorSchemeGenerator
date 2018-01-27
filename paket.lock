@@ -2,7 +2,7 @@ SPECIFIC-VERSION: FALSE
 RESTRICTION: == net452
 NUGET
   remote: https://www.nuget.org/api/v2
-    7-Zip.CommandLine (9.20)
+    7-Zip.CommandLine (16.4)
     Costura.Fody (1.6.2)
       Fody (>= 2.0 < 3.0)
     Fody (2.3.23)
