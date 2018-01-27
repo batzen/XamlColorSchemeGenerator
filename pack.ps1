@@ -1,1 +1,0 @@
-nuget pack .\XamlColorSchemeGenerator.nuspec -Version 1.0.1 -OutputDirectory .\bin\nuget
