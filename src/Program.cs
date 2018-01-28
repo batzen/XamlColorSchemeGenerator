@@ -22,11 +22,18 @@
                 {
                     var inputFile = args[0];
 
-                    using (Lock(inputFile))
+                    using (var mutex = Lock(inputFile))
                     {
-                        var generator = new Generator();
+                        try
+                        {
+                            var generator = new Generator();
 
-                        generator.Generate(inputFile);
+                            generator.Generate(inputFile);
+                        }
+                        finally
+                        {
+                            mutex.ReleaseMutex();
+                        }
                     }
                 }
                 else
@@ -56,7 +63,7 @@
             }
         }
 
-        private static IDisposable Lock(string file)
+        private static Mutex Lock(string file)
         {
             var appGuid = ((GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), false).GetValue(0)).Value;
             var mutexName = $"Local\\{appGuid}_{GetMD5Hash(file)}";
@@ -67,7 +74,7 @@
             {
                 throw new TimeoutException("Another instance of this application blocked the concurrent execution.");
             }
-
+            
             return mutex;
         }
 

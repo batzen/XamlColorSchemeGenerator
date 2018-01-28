@@ -7,6 +7,9 @@
         <summary>Generates color scheme xaml files while replacing certain parts of a template file.</summary>
         <description>Generates color scheme xaml files while replacing certain parts of a template file.</description>
         <releaseNotes>
+            1.0.3:
+                - Fixing wrong mutex usage
+                
             1.0.2:
                 - Improving protection against issues caused by concurrent invocation of tool
 
