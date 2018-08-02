@@ -1,10 +1,10 @@
 SPECIFIC-VERSION: FALSE
-RESTRICTION: == net452
+RESTRICTION: >= net45
 NUGET
   remote: https://www.nuget.org/api/v2
-    7-Zip.CommandLine (16.4)
-    Costura.Fody (1.6.2)
-      Fody (>= 2.0 < 3.0)
-    Fody (2.3.23)
-    gitlink (2.4)
-    NuGet.CommandLine (4.4.1)
+    7-Zip.CommandLine (18.1)
+    Costura.Fody (3.1)
+      Fody (>= 3.1.3) - restriction: >= net46
+    Fody (3.1.4) - restriction: >= net46
+    gitlink (3.1)
+    NuGet.CommandLine (4.7)
