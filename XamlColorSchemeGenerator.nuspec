@@ -7,17 +7,20 @@
         <summary>Generates color scheme xaml files while replacing certain parts of a template file.</summary>
         <description>Generates color scheme xaml files while replacing certain parts of a template file.</description>
         <releaseNotes>
-            1.0.3:
-                - Fixing wrong mutex usage
-                
-            1.0.2:
-                - Improving protection against issues caused by concurrent invocation of tool
+2.0.0:
+    - Partial rewrite to support base colors etc.
 
-            1.0.1:
-                - Fixing file access exceptions during concurrent invocation of tool
-                
-            1.0.0:
-                - Initial release
+1.0.3:
+    - Fixing wrong mutex usage
+    
+1.0.2:
+    - Improving protection against issues caused by concurrent invocation of tool
+
+1.0.1:
+    - Fixing file access exceptions during concurrent invocation of tool
+    
+1.0.0:
+    - Initial release
         </releaseNotes>
         <authors>batzen</authors>
         <licenseUrl>https://raw.githubusercontent.com/batzen/XamlColorSchemeGenerator/master/LICENSE</licenseUrl>
