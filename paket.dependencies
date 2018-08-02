@@ -8,4 +8,3 @@ nuget gitlink 2.4.0
 nuget NuGet.CommandLine
 
 nuget Costura.Fody
-nuget Newtonsoft.Json

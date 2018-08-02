@@ -26,9 +26,9 @@
                     {
                         try
                         {
-                            var generator = new Generator();
+                            var generator = new ColorSchemeGenerator();
 
-                            generator.Generate(inputFile);
+                            generator.GenerateColorSchemeFiles(inputFile);
                         }
                         finally
                         {

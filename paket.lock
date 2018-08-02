@@ -7,5 +7,4 @@ NUGET
       Fody (>= 2.0 < 3.0)
     Fody (2.3.23)
     gitlink (2.4)
-    Newtonsoft.Json (10.0.3)
     NuGet.CommandLine (4.4.1)
