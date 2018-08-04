@@ -31,5 +31,8 @@
     <files>
         <file src="bin\Release\XamlColorSchemeGenerator.exe" target="tools" />
         <file src="bin\Release\XamlColorSchemeGenerator.pdb" target="tools" />
+
+        <file src="bin\Release\XamlColorSchemeGenerator.exe" target="lib/net45" />
+        <file src="bin\Release\XamlColorSchemeGenerator.pdb" target="lib/net45" />
     </files>
 </package>
