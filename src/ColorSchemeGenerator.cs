@@ -91,7 +91,7 @@
         }
     }
 
-    internal class GeneratorParameters
+    public class GeneratorParameters
     {
         public string TemplateFile { get; set; }
 
@@ -103,7 +103,7 @@
     }
 
     [DebuggerDisplay("{" + nameof(Name) + "}")]
-    internal class BaseColorScheme
+    public class BaseColorScheme
     {
         public string Name { get; set; }
 
@@ -111,7 +111,7 @@
     }
 
     [DebuggerDisplay("{" + nameof(Name) + "}")]
-    internal class ColorScheme
+    public class ColorScheme
     {
         public string Name { get; set; }
 
