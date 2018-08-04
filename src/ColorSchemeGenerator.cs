@@ -7,7 +7,7 @@
     using System.Text;
     using System.Web.Script.Serialization;
 
-    internal class ColorSchemeGenerator
+    public class ColorSchemeGenerator
     {
         public void GenerateColorSchemeFiles(string inputFile)
         {
