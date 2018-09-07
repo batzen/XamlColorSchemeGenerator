@@ -7,6 +7,9 @@
         <summary>Generates color scheme xaml files while replacing certain parts of a template file.</summary>
         <description>Generates color scheme xaml files while replacing certain parts of a template file.</description>
         <releaseNotes>
+2.1.0:
+    - Adding support for custom base colors
+            
 2.0.0:
     - Partial rewrite to support base colors etc.
 
@@ -27,6 +30,9 @@
         <projectUrl>https://github.com/batzen/XamlColorSchemeGenerator</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <tags>xaml color scheme generator</tags>
+        <dependencies>
+            <dependency id="Newtonsoft.Json" version="10.1.0" />
+        </dependencies>
     </metadata>
     <files>
         <file src="bin\Release\XamlColorSchemeGenerator.exe" target="tools" />

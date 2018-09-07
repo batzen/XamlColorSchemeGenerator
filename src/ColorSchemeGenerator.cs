@@ -6,13 +6,13 @@
     using System.IO;
     using System.Linq;
     using System.Text;
-    using System.Web.Script.Serialization;
+    using Newtonsoft.Json;
 
     public class ColorSchemeGenerator
     {
         public void GenerateColorSchemeFiles(string inputFile)
         {
-            var parameters = new JavaScriptSerializer().Deserialize<GeneratorParameters>(File.ReadAllText(inputFile, Encoding.UTF8));
+            var parameters = JsonConvert.DeserializeObject<GeneratorParameters>(File.ReadAllText(inputFile, Encoding.UTF8));
 
             var templateDirectory = Path.GetDirectoryName(Path.GetFullPath(inputFile));
             var templateFile = Path.Combine(templateDirectory, parameters.TemplateFile);

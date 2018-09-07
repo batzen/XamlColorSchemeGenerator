@@ -6,3 +6,5 @@ specific_version: false
 nuget 7-Zip.Commandline
 nuget gitlink
 nuget NuGet.CommandLine
+
+nuget Newtonsoft.Json 10.0.1
