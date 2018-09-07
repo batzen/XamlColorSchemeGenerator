@@ -47,17 +47,17 @@
                 stopwatch.Stop();
                 Trace.WriteLine($"Generation time: {stopwatch.Elapsed}");
 
-                if (Debugger.IsAttached)
-                {
-                    Console.ReadLine();
-                }
-
                 return 0;
             }
             catch (Exception e)
             {
                 Trace.WriteLine(e);
                 Console.WriteLine(e);
+
+                if (Debugger.IsAttached)
+                {
+                    Console.ReadLine();
+                }
 
                 return 1;
             }
