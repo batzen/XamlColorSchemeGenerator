@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Text;
     using System.Web.Script.Serialization;
 
@@ -17,12 +18,33 @@
             var templateFile = Path.Combine(templateDirectory, parameters.TemplateFile);
             var templateContent = File.ReadAllText(templateFile, Encoding.UTF8);
 
-            foreach (var variant in parameters.BaseColorSchemes)
+            var colorSchemesForBaseColors = parameters.ColorSchemes.Where(x => string.IsNullOrEmpty(x.CustomBaseColorSchemeName))
+                                                      .ToList();
+            var colorSchemesWithCustomBaseColor = parameters.ColorSchemes.Where(x => string.IsNullOrEmpty(x.CustomBaseColorSchemeName) == false);
+
+            foreach (var baseColorScheme in parameters.BaseColorSchemes)
             {
-                foreach (var colorScheme in parameters.ColorSchemes)
+                foreach (var colorScheme in colorSchemesForBaseColors)
                 {
-                    this.GenerateColorSchemeFile(parameters, templateDirectory, templateContent, variant, colorScheme);
+                    this.GenerateColorSchemeFile(parameters, templateDirectory, templateContent, baseColorScheme, colorScheme);
                 }
+            }
+
+            foreach (var colorScheme in colorSchemesWithCustomBaseColor)
+            {
+                BaseColorScheme baseColorScheme;
+                if (string.IsNullOrEmpty(colorScheme.BaseColorSchemeReference))
+                {
+                    baseColorScheme = new BaseColorScheme();
+                }
+                else
+                {
+                     baseColorScheme = parameters.BaseColorSchemes.First(x => x.Name == colorScheme.BaseColorSchemeReference).Clone();
+                }
+
+                baseColorScheme.Name = colorScheme.CustomBaseColorSchemeName;
+
+                this.GenerateColorSchemeFile(parameters, templateDirectory, templateContent, baseColorScheme, colorScheme);
             }
         }
 
@@ -108,12 +130,21 @@
         public string Name { get; set; }
 
         public Dictionary<string, string> Values { get; set; }
+
+        public BaseColorScheme Clone()
+        {
+            return (BaseColorScheme)this.MemberwiseClone();
+        }
     }
 
     [DebuggerDisplay("{" + nameof(Name) + "}")]
     public class ColorScheme
     {
-        public string Name { get; set; }
+        public string CustomBaseColorSchemeName { get; set; }
+
+        public string BaseColorSchemeReference { get; set; }
+
+        public string Name { get; set; }        
 
         public Dictionary<string, string> Values { get; set; } = new Dictionary<string, string>();
     }
