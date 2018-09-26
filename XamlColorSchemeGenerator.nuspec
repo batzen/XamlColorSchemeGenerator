@@ -7,6 +7,9 @@
         <summary>Generates color scheme xaml files while replacing certain parts of a template file.</summary>
         <description>Generates color scheme xaml files while replacing certain parts of a template file.</description>
         <releaseNotes>
+3.0.0:
+    - Adding strong naming to assembly
+
 2.1.0:
     - Adding support for custom base colors
             
