@@ -3,10 +3,6 @@
     using System;
     using System.Diagnostics;
     using System.Linq;
-    using System.Reflection;
-    using System.Runtime.InteropServices;
-    using System.Security.Cryptography;
-    using System.Text;
     using System.Threading;
 
     internal class Program
@@ -64,9 +60,8 @@
         }
 
         private static Mutex Lock(string file)
-        {
-            var appGuid = ((GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), false).GetValue(0)).Value;
-            var mutexName = $"Local\\{appGuid}_{GetMD5Hash(file)}";
+        {           
+            var mutexName = $"Local\\XamlColorSchemeGenerator_{file.GetHashCode()}";
 
             var mutex = new Mutex(false, mutexName);
 
@@ -77,19 +72,5 @@
             
             return mutex;
         }
-
-        private static string GetMD5Hash(string textToHash)
-        {
-            if (string.IsNullOrEmpty(textToHash))
-            {
-                return string.Empty;
-            }
-
-            var md5 = new MD5CryptoServiceProvider();
-            var bytesToHash = Encoding.Default.GetBytes(textToHash);
-            var result = md5.ComputeHash(bytesToHash); 
-
-            return BitConverter.ToString(result); 
-        } 
     }
 }

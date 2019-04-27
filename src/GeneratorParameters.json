@@ -64,6 +64,18 @@
   ],
   "ColorSchemes": [
     {
+      "CustomBaseColorName": "Colorful", 
+      "Name": "Blue",
+      "Values": {
+        "Fluent.Ribbon.Colors.AccentBaseColor": "#FF2B579A",
+        "Fluent.Ribbon.Colors.AccentColor80": "#CC2B579A",
+        "Fluent.Ribbon.Colors.AccentColor60": "#992B579A",
+        "Fluent.Ribbon.Colors.AccentColor40": "#662B579A",
+        "Fluent.Ribbon.Colors.AccentColor20": "#332B579A",
+        "Fluent.Ribbon.Colors.HighlightColor": "#FF086F9E"
+      }
+    },
+    {
       "Name": "Blue",
       "Values": {
         "Fluent.Ribbon.Colors.AccentBaseColor": "#FF2B579A",

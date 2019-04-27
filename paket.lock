@@ -6,3 +6,4 @@ NUGET
     gitlink (3.1)
     Newtonsoft.Json (10.0.1)
     NuGet.CommandLine (4.7)
+    System.Text.Json (2.0.0.11)
