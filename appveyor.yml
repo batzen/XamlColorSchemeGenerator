@@ -5,7 +5,8 @@ configuration: Release
 image: Visual Studio 2017
 
 build_script:
-  - powershell ./build.ps1 -Target CI
+  - dotnet build
+  - dotnet pack
 
 assembly_info:
   patch: true

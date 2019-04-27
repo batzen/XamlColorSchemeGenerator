@@ -1,10 +1,11 @@
-﻿namespace XamlColorSchemeGenerator
+namespace XamlColorSchemeGenerator
 {
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Text;
+    using Newtonsoft.Json;
 
     public class ColorSchemeGenerator
     {
@@ -47,7 +48,10 @@
         {
             using (var stream = new FileStream(inputFile, FileMode.Open, FileAccess.Read, FileShare.None, BufferSize))
             {
-                return new System.Text.Json.JsonParser().Parse<GeneratorParameters>(stream, Encoding.UTF8);
+                using (var streamReader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    return JsonConvert.DeserializeObject<GeneratorParameters>(streamReader.ReadToEnd());
+                }
             }
         }
 
