@@ -18,7 +18,7 @@ namespace XamlColorSchemeGenerator
             var templateDirectory = Path.GetDirectoryName(Path.GetFullPath(inputFile));
             var templateFile = Path.Combine(templateDirectory, parameters.TemplateFile);
             var templateContent = new FastReplacer("{{", "}}");
-            templateContent.Append(File.ReadAllText(templateFile, Encoding.UTF8));
+            templateContent.Append(ReadAllTextShared(templateFile));
 
             var colorSchemesForBaseColors = parameters.ColorSchemes.Where(x => string.IsNullOrEmpty(x.CustomBaseColorSchemeName))
                                                       .ToList();
@@ -46,13 +46,7 @@ namespace XamlColorSchemeGenerator
 
         private static GeneratorParameters GetParameters(string inputFile)
         {
-            using (var stream = new FileStream(inputFile, FileMode.Open, FileAccess.Read, FileShare.None, BufferSize))
-            {
-                using (var streamReader = new StreamReader(stream, Encoding.UTF8))
-                {
-                    return JsonConvert.DeserializeObject<GeneratorParameters>(streamReader.ReadToEnd());
-                }
-            }
+            return JsonConvert.DeserializeObject<GeneratorParameters>(ReadAllTextShared(inputFile));
         }
 
         public void GenerateColorSchemeFile(GeneratorParameters parameters, string templateDirectory, FastReplacer templateContent, BaseColorScheme baseColorScheme, ColorScheme colorScheme)
@@ -115,9 +109,9 @@ namespace XamlColorSchemeGenerator
             Stream stream = null;
             try
             {
-                stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+                stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read, BufferSize);
 
-                using (var textReader = new StreamReader(stream))
+                using (var textReader = new StreamReader(stream, Encoding.UTF8))
                 {
                     stream = null;
                     return textReader.ReadToEnd();

@@ -2,17 +2,26 @@
 {
     using System;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
+    using System.Runtime;
     using System.Threading;
 
     internal class Program
     {
         private static int Main(string[] args)
         {
+            const string ProfileFile = "XamlColorSchemeGenerator.profile";
+
+            ProfileOptimization.SetProfileRoot(Environment.GetEnvironmentVariable("temp"));
+            ProfileOptimization.StartProfile(ProfileFile);
+
+            var stopwatch = Stopwatch.StartNew();
+
+            var verbose = args.Any(x => x.Equals("-v", StringComparison.OrdinalIgnoreCase));
+
             try
             {
-                var stopwatch = Stopwatch.StartNew();
-
                 // TODO: Add flags for some parameters.
                 if (args.Any())
                 {
@@ -40,8 +49,10 @@
 
                 // TODO: Add help output.
 
-                stopwatch.Stop();
-                Trace.WriteLine($"Generation time: {stopwatch.Elapsed}");
+                if (verbose)
+                {
+                    Console.WriteLine($"Generation time: {stopwatch.Elapsed}");
+                }
 
                 return 0;
             }
@@ -61,7 +72,7 @@
 
         private static Mutex Lock(string file)
         {           
-            var mutexName = $"Local\\XamlColorSchemeGenerator_{file.GetHashCode()}";
+            var mutexName = "Local\\XamlColorSchemeGenerator_" + Path.GetFileName(file);
 
             var mutex = new Mutex(false, mutexName);
 
