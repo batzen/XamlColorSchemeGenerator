@@ -5,15 +5,14 @@ namespace XamlColorSchemeGenerator
     using System.IO;
     using System.Linq;
     using System.Text;
-    using Newtonsoft.Json;
 
     public class ColorSchemeGenerator
     {
-        const int BufferSize = 32768; // 32 Kilobytes
+        private const int BufferSize = 32768; // 32 Kilobytes
 
         public void GenerateColorSchemeFiles(string inputFile)
         {
-            var parameters = GetParameters(inputFile);
+            var parameters = GetParametersFromFile(inputFile);
 
             var templateDirectory = Path.GetDirectoryName(Path.GetFullPath(inputFile));
             var templateFile = Path.Combine(templateDirectory, parameters.TemplateFile);
@@ -44,9 +43,18 @@ namespace XamlColorSchemeGenerator
             }
         }
 
-        private static GeneratorParameters GetParameters(string inputFile)
+        public static GeneratorParameters GetParametersFromFile(string inputFile)
         {
-            return JsonConvert.DeserializeObject<GeneratorParameters>(ReadAllTextShared(inputFile));
+            return GetParametersFromString(ReadAllTextShared(inputFile));
+        }
+
+        public static GeneratorParameters GetParametersFromString(string input)
+        {
+#if NETCOREAPP3_0
+            return System.Text.Json.Serialization.JsonSerializer.Parse<GeneratorParameters>(input);
+#else
+            return new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<GeneratorParameters>(input);
+#endif
         }
 
         public void GenerateColorSchemeFile(GeneratorParameters parameters, string templateDirectory, FastReplacer templateContent, BaseColorScheme baseColorScheme, ColorScheme colorScheme)

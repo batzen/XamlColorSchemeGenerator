@@ -15,15 +15,13 @@
 
     <ItemGroup>
       <None Include="..\LICENSE" Pack="true" PackagePath="licenses" />
-      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).dll.config" Pack="true" PackagePath="tools/netcoreapp3.0" />
-      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).dll" Pack="true" PackagePath="tools/netcoreapp3.0" />
-      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).exe" Pack="true" PackagePath="tools/netcoreapp3.0" />
-      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).runtimeconfig.json" Pack="true" PackagePath="tools/netcoreapp3.0" />
-      <None Include="$(OutputPath)\netcoreapp3.0\Newtonsoft.Json.*" Pack="true" PackagePath="tools/netcoreapp3.0" />
+      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).dll.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).dll" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).exe" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).runtimeconfig.json" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
 
-      <None Include="$(OutputPath)\net45\$(AssemblyName).exe.config" Pack="true" PackagePath="tools/net45" />
-      <None Include="$(OutputPath)\net45\$(AssemblyName).exe" Pack="true" PackagePath="tools/net45" />
-      <None Include="$(OutputPath)\net45\Newtonsoft.Json.*" Pack="true" PackagePath="tools/net45" />
+      <None Include="$(OutputPath)\net45\$(AssemblyName).exe.config" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\$(AssemblyName).exe" Pack="true" PackagePath="tools/net45" Visible="False" />
     </ItemGroup>
   
     <!-- NuGet -->
@@ -45,13 +43,13 @@
         <DelaySign>false</DelaySign>
         <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     </PropertyGroup>
-    <!-- reference includes -->
-    <!--<ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-        <PackageReference Include="System.Text.Json" Version="1.0.0-beta2*" PrivateAssets="All" />
-    </ItemGroup>-->
+
     <ItemGroup>
-      <!--<PackageReference Include="System.Text.Json" Version="1.0.0-beta2*" PrivateAssets="All" />-->
-      <PackageReference Include="Newtonsoft.Json" Version="10.*" PrivateAssets="All" />
+    	<Reference Include="System.Web.Extensions" Condition="'$(TargetFramework)' == 'net45'" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Text.Json" Version="4-*" PrivateAssets="All" Condition="'$(TargetFramework)' == 'netcoreapp3.0'" />
       <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2*" PrivateAssets="All" />
     </ItemGroup>
 </Project>
