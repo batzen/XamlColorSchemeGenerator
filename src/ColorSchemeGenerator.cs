@@ -16,8 +16,7 @@ namespace XamlColorSchemeGenerator
 
             var templateDirectory = Path.GetDirectoryName(Path.GetFullPath(inputFile));
             var templateFile = Path.Combine(templateDirectory, parameters.TemplateFile);
-            var templateContent = new FastReplacer("{{", "}}");
-            templateContent.Append(ReadAllTextShared(templateFile));
+            var templateContent = File.ReadAllText(templateFile, Encoding.UTF8);
 
             var colorSchemesForBaseColors = parameters.ColorSchemes.Where(x => string.IsNullOrEmpty(x.CustomBaseColorSchemeName))
                                                       .ToList();
@@ -57,7 +56,7 @@ namespace XamlColorSchemeGenerator
 #endif
         }
 
-        public void GenerateColorSchemeFile(GeneratorParameters parameters, string templateDirectory, FastReplacer templateContent, BaseColorScheme baseColorScheme, ColorScheme colorScheme)
+        public void GenerateColorSchemeFile(GeneratorParameters parameters, string templateDirectory, string templateContent, BaseColorScheme baseColorScheme, ColorScheme colorScheme)
         {
             var themeName = $"{baseColorScheme.Name}.{colorScheme.Name}";
             var themeDisplayName = $"{colorScheme.Name} ({baseColorScheme.Name})";
@@ -68,12 +67,12 @@ namespace XamlColorSchemeGenerator
             var themeTempFileContent = this.GenerateColorSchemeFileContent(parameters, baseColorScheme, colorScheme, templateContent, themeName, themeDisplayName);
 
             //Trace.WriteLine($"Comparing temp file \"{themeTempFile}\" to \"{themeFile}\"");
-            
+
             var fileHasToBeWritten = File.Exists(themeFile) == false
-                    || ReadAllTextShared(themeFile) != themeTempFileContent;
+                                     || ReadAllTextShared(themeFile) != themeTempFileContent;
 
             if (fileHasToBeWritten)
-            {                
+            {
                 using (var sw = new StreamWriter(themeFile, false, Encoding.UTF8, BufferSize))
                 {
                     sw.Write(themeTempFileContent);
@@ -87,29 +86,29 @@ namespace XamlColorSchemeGenerator
             }
         }
 
-        public string GenerateColorSchemeFileContent(GeneratorParameters parameters, BaseColorScheme baseColorScheme, ColorScheme colorScheme, FastReplacer templateContent, string themeName, string themeDisplayName)
+        public string GenerateColorSchemeFileContent(GeneratorParameters parameters, BaseColorScheme baseColorScheme, ColorScheme colorScheme, string templateContent, string themeName, string themeDisplayName)
         {
-            templateContent.Replace("ThemeName", themeName);
-            templateContent.Replace("ThemeDisplayName", themeDisplayName);
-            templateContent.Replace("BaseColorScheme", baseColorScheme.Name);
-            templateContent.Replace("ColorScheme", colorScheme.Name);
+            templateContent = templateContent.Replace("{{ThemeName}}", themeName);
+            templateContent = templateContent.Replace("{{ThemeDisplayName}}", themeDisplayName);
+            templateContent = templateContent.Replace("{{BaseColorScheme}}", baseColorScheme.Name);
+            templateContent = templateContent.Replace("{{ColorScheme}}", colorScheme.Name);
 
             foreach (var value in colorScheme.Values)
             {
-                templateContent.Replace(value.Key, value.Value);
+                templateContent = templateContent.Replace($"{{{{{value.Key}}}}}", value.Value);
             }
 
             foreach (var value in baseColorScheme.Values)
             {
-                templateContent.Replace(value.Key, value.Value);
+                templateContent = templateContent.Replace($"{{{{{value.Key}}}}}", value.Value);
             }
 
             foreach (var value in parameters.DefaultValues)
             {
-                templateContent.Replace(value.Key, value.Value);
+                templateContent = templateContent.Replace($"{{{{{value.Key}}}}}", value.Value);
             }
 
-            return templateContent.ToString();
+            return templateContent;
         }
 
         private static string ReadAllTextShared(string file)
