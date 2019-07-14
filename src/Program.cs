@@ -38,6 +38,7 @@
                         finally
                         {
                             mutex.ReleaseMutex();
+                            stopwatch.Stop();
                         }
                     }
                 }
