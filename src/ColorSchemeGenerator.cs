@@ -50,7 +50,7 @@ namespace XamlColorSchemeGenerator
         public static GeneratorParameters GetParametersFromString(string input)
         {
 #if NETCOREAPP3_0
-            return System.Text.Json.Serialization.JsonSerializer.Parse<GeneratorParameters>(input);
+            return System.Text.Json.JsonSerializer.Deserialize<GeneratorParameters>(input);
 #else
             return new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<GeneratorParameters>(input);
 #endif
