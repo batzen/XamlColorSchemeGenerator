@@ -4,9 +4,9 @@ version: 3.0.0.{build}
 configuration: Release
 image: Visual Studio 2019
 
-# Install dotnet core 3.0 latest (alpha!!), as this is not provided on AppVeyor yet
+# Install dotnet core 3.0 latest
 install:
-  - cinst dotnetcore-sdk --pre
+  - cinst dotnetcore-sdk
 
 build_script:
   - dotnet build -c Release
