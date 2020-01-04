@@ -15,7 +15,7 @@
         <NoWarn>$(NoWarn);CS1591</NoWarn>
         <NoError>$(NoError);CS1591</NoError>
         <!-- <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\ControlzEx.ruleset</CodeAnalysisRuleSet> -->
-        <OutputPath>$(MSBuildThisFileDirectory)/bin/$(MSBuildProjectName)/$(Configuration)/</OutputPath>
+        <OutputPath>$(MSBuildThisFileDirectory)/bin/$(Configuration)/</OutputPath>
     </PropertyGroup>
 
     <!-- SourceLink -->
