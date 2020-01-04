@@ -11,6 +11,8 @@
       <OutputType>WinExe</OutputType>
       <!--<ApplicationManifest>app.manifest</ApplicationManifest>-->
       <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+
+      <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
