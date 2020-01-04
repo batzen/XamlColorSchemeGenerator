@@ -19,33 +19,35 @@
             var stopwatch = Stopwatch.StartNew();
 
             var verbose = args.Any(x => x.Equals("-v", StringComparison.OrdinalIgnoreCase));
+            var indexForGeneratorParametersFile = Array.IndexOf(args, "-g") + 1;
+            var indexForTemplateFile = Array.IndexOf(args, "-t") + 1;
+            var indexForOutputPath = Array.IndexOf(args, "-o") + 1;
 
             try
             {
-                // TODO: Add flags for some parameters.
-                if (args.Any())
-                {
-                    var inputFile = args[0];
+                var generatorParametersFile = indexForGeneratorParametersFile > 0 && args.Length >= indexForGeneratorParametersFile
+                    ? args[indexForGeneratorParametersFile] 
+                    : "GeneratorParameters.json";
+                var templateFile = indexForTemplateFile > 0 && args.Length >= indexForTemplateFile
+                    ? args[indexForTemplateFile + 1] 
+                    : "Theme.Template.xaml";
+                var outputPath = indexForOutputPath > 0 && args.Length >= indexForOutputPath
+                    ? args[indexForOutputPath]  
+                    : null;
 
-                    using (var mutex = Lock(inputFile))
+                using (var mutex = Lock(generatorParametersFile))
+                {
+                    try
                     {
-                        try
-                        {
-                            var generator = new ColorSchemeGenerator();
+                        var generator = new ColorSchemeGenerator();
 
-                            generator.GenerateColorSchemeFiles(inputFile);
-                        }
-                        finally
-                        {
-                            mutex.ReleaseMutex();
-                            stopwatch.Stop();
-                        }
+                        generator.GenerateColorSchemeFiles(generatorParametersFile, templateFile, outputPath);
                     }
-                }
-                else
-                {
-                    Console.WriteLine("You have pass the generator input file as a commandline parameter.");
-                    return 1;
+                    finally
+                    {
+                        mutex.ReleaseMutex();
+                        stopwatch.Stop();
+                    }
                 }
 
                 // TODO: Add help output.

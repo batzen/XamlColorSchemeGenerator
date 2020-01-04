@@ -10,12 +10,12 @@ namespace XamlColorSchemeGenerator
     {
         private const int BufferSize = 32768; // 32 Kilobytes
 
-        public void GenerateColorSchemeFiles(string inputFile)
+        public void GenerateColorSchemeFiles(string generatorParametersFile, string templateFile, string outputPath = null)
         {
-            var parameters = GetParametersFromFile(inputFile);
+            var parameters = GetParametersFromFile(generatorParametersFile);
 
-            var templateDirectory = Path.GetDirectoryName(Path.GetFullPath(inputFile));
-            var templateFile = Path.Combine(templateDirectory, parameters.TemplateFile);
+            outputPath ??= Path.GetDirectoryName(Path.GetFullPath(templateFile));
+
             var templateContent = File.ReadAllText(templateFile, Encoding.UTF8);
 
             var colorSchemesForBaseColors = parameters.ColorSchemes.Where(x => string.IsNullOrEmpty(x.CustomBaseColorSchemeName))
@@ -26,37 +26,37 @@ namespace XamlColorSchemeGenerator
             {
                 foreach (var colorScheme in colorSchemesForBaseColors)
                 {
-                    this.GenerateColorSchemeFile(parameters, templateDirectory, templateContent, baseColorScheme, colorScheme);
+                    this.GenerateColorSchemeFile(parameters, outputPath, templateContent, baseColorScheme, colorScheme);
                 }
             }
 
             foreach (var colorScheme in colorSchemesWithCustomBaseColor)
             {
                 var baseColorScheme = string.IsNullOrEmpty(colorScheme.BaseColorSchemeReference)
-                                                      ? new BaseColorScheme()
+                                                      ? new ThemeGeneratorBaseColorScheme()
                                                       : parameters.BaseColorSchemes.First(x => x.Name == colorScheme.BaseColorSchemeReference).Clone();
 
                 baseColorScheme.Name = colorScheme.CustomBaseColorSchemeName;
 
-                this.GenerateColorSchemeFile(parameters, templateDirectory, templateContent, baseColorScheme, colorScheme);
+                this.GenerateColorSchemeFile(parameters, outputPath, templateContent, baseColorScheme, colorScheme);
             }
         }
 
-        public static GeneratorParameters GetParametersFromFile(string inputFile)
+        public static ThemeGeneratorParameters GetParametersFromFile(string inputFile)
         {
             return GetParametersFromString(ReadAllTextShared(inputFile));
         }
 
-        public static GeneratorParameters GetParametersFromString(string input)
+        public static ThemeGeneratorParameters GetParametersFromString(string input)
         {
 #if NETCOREAPP3_0
-            return System.Text.Json.JsonSerializer.Deserialize<GeneratorParameters>(input);
+            return System.Text.Json.JsonSerializer.Deserialize<ThemeGeneratorParameters>(input);
 #else
-            return new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<GeneratorParameters>(input);
+            return new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<ThemeGeneratorParameters>(input);
 #endif
         }
 
-        public void GenerateColorSchemeFile(GeneratorParameters parameters, string templateDirectory, string templateContent, BaseColorScheme baseColorScheme, ColorScheme colorScheme)
+        public void GenerateColorSchemeFile(ThemeGeneratorParameters parameters, string templateDirectory, string templateContent, ThemeGeneratorBaseColorScheme baseColorScheme, ThemeGeneratorColorScheme colorScheme)
         {
             var themeName = $"{baseColorScheme.Name}.{colorScheme.Name}";
             var themeDisplayName = $"{colorScheme.Name} ({baseColorScheme.Name})";
@@ -86,7 +86,7 @@ namespace XamlColorSchemeGenerator
             }
         }
 
-        public string GenerateColorSchemeFileContent(GeneratorParameters parameters, BaseColorScheme baseColorScheme, ColorScheme colorScheme, string templateContent, string themeName, string themeDisplayName)
+        public string GenerateColorSchemeFileContent(ThemeGeneratorParameters parameters, ThemeGeneratorBaseColorScheme baseColorScheme, ThemeGeneratorColorScheme colorScheme, string templateContent, string themeName, string themeDisplayName)
         {
             templateContent = templateContent.Replace("{{ThemeName}}", themeName);
             templateContent = templateContent.Replace("{{ThemeDisplayName}}", themeDisplayName);
@@ -131,32 +131,30 @@ namespace XamlColorSchemeGenerator
         }
     }
 
-    public class GeneratorParameters
+    public class ThemeGeneratorParameters
     {
-        public string TemplateFile { get; set; }
-
         public Dictionary<string, string> DefaultValues { get; set; } = new Dictionary<string, string>();
 
-        public BaseColorScheme[] BaseColorSchemes { get; set; }
+        public ThemeGeneratorBaseColorScheme[] BaseColorSchemes { get; set; }
 
-        public ColorScheme[] ColorSchemes { get; set; }
+        public ThemeGeneratorColorScheme[] ColorSchemes { get; set; }
     }
 
     [DebuggerDisplay("{" + nameof(Name) + "}")]
-    public class BaseColorScheme
+    public class ThemeGeneratorBaseColorScheme
     {
         public string Name { get; set; }
 
         public Dictionary<string, string> Values { get; set; }
 
-        public BaseColorScheme Clone()
+        public ThemeGeneratorBaseColorScheme Clone()
         {
-            return (BaseColorScheme)this.MemberwiseClone();
+            return (ThemeGeneratorBaseColorScheme)this.MemberwiseClone();
         }
     }
 
     [DebuggerDisplay("{" + nameof(Name) + "}")]
-    public class ColorScheme
+    public class ThemeGeneratorColorScheme
     {
         public string CustomBaseColorSchemeName { get; set; }
 
