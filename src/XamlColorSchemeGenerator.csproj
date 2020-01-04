@@ -45,11 +45,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-    	<Reference Include="System.Web.Extensions" Condition="'$(TargetFramework)' == 'net45'" />
+      <Reference Include="System.Web.Extensions" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" />
+      <PackageReference Include="System.Text.Json" Version="4.*" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.Text.Json" Version="4-*" PrivateAssets="All" Condition="'$(TargetFramework)' == 'netcoreapp3.0'" />
       <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1-*" PrivateAssets="All" />
     </ItemGroup>
 </Project>
