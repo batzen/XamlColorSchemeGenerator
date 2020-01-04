@@ -16,6 +16,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <AppConfigWithTargetPath Include="App.net.config" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false">
+          <TargetPath>$(AssemblyName).exe.config</TargetPath>
+      </AppConfigWithTargetPath>
+
+      <AppConfigWithTargetPath Include="App.netcoreapp.config" Condition="$(DefineConstants.Contains(NETCOREAPP))">
+          <TargetPath>$(AssemblyName).exe.config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+
+    <ItemGroup>
       <None Include="..\LICENSE" Pack="true" PackagePath="licenses" />
       <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).dll.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
       <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).dll" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
