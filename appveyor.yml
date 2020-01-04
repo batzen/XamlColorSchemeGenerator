@@ -1,6 +1,6 @@
 # http://www.appveyor.com/docs/appveyor-yml
 
-version: 3.0.0.{build}
+version: 4.0.0.{build}
 configuration: Release
 image: Visual Studio 2019
 
