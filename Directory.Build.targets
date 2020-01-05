@@ -1,18 +1,2 @@
 <Project>
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
-        <DefineConstants>$(DefineConstants);OWNDPISCALE</DefineConstants>
-    </PropertyGroup>
-
-    <!-- AssemblyInfo -->
-    <PropertyGroup>
-        <Company>https://github.com/batzen/XamlColorSchemeGenerator</Company>
-        <Product>XamlColorSchemeGenerator</Product>
-        <Copyright>Copyright © 2015 - $([System.DateTime]::Today.ToString(yyyy)) Bastian Schmidt</Copyright>
-
-        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-        <Version>4.0.0.0</Version>
-        <AssemblyVersion>$(Version)</AssemblyVersion>
-        <FileVersion>$(Version)</FileVersion>
-        <InformationalVersion>$(Version)</InformationalVersion>
-    </PropertyGroup>
 </Project>

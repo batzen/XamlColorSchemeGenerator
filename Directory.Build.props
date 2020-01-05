@@ -5,6 +5,18 @@
         <!-- <RestoreLockedMode>true</RestoreLockedMode> -->
     </PropertyGroup>
 
+    <!-- AssemblyInfo -->
+    <PropertyGroup>
+        <Company>https://github.com/batzen/XamlColorSchemeGenerator</Company>
+        <Product>XamlColorSchemeGenerator</Product>
+        <Copyright>Copyright © 2015 - $([System.DateTime]::Today.ToString(yyyy)) Bastian Schmidt</Copyright>
+
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+
+        <VersionPrefix>4.0</VersionPrefix>
+        <AssemblyVersion>4.0</AssemblyVersion>
+    </PropertyGroup>
+
     <!-- Project properties -->
     <PropertyGroup>
         <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
