@@ -16,6 +16,8 @@ namespace XamlColorSchemeGenerator
 
             outputPath ??= Path.GetDirectoryName(Path.GetFullPath(templateFile));
 
+            Directory.CreateDirectory(outputPath);
+
             var templateContent = File.ReadAllText(templateFile, Encoding.UTF8);
 
             var colorSchemesForBaseColors = parameters.ColorSchemes.Where(x => string.IsNullOrEmpty(x.CustomBaseColorSchemeName))
