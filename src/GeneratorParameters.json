@@ -7,7 +7,7 @@
     "Fluent.Ribbon.Brushes.ApplicationMenuItem.CheckBox.Background": "#FFFCF1C2",
     "Fluent.Ribbon.Brushes.ApplicationMenuItem.CheckBox.BorderBrush": "#FFF29536"
   },
-  "BaseColors": [
+  "BaseColorSchemes": [
     {
       "Name": "Dark",
       "Values": {
