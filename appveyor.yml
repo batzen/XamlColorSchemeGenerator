@@ -5,12 +5,13 @@ image: Visual Studio 2019
 
 install:
   - cinst dotnetcore-sdk --version=3.1.100
-  - choco install gitversion.portable -y
+  - choco install gitversion.portable
 
 before_build:
   - gitversion /l console /output buildserver
 
 build_script:
+  - dotnet restore
   - dotnet build -c Release
   - dotnet pack -c Release
 
