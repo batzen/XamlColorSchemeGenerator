@@ -1,21 +1,23 @@
-﻿namespace XamlColorSchemeGenerator
+namespace XamlColorSchemeGenerator
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Text;
-    using Newtonsoft.Json;
 
     public class ColorSchemeGenerator
     {
-        public void GenerateColorSchemeFiles(string inputFile)
-        {
-            var parameters = JsonConvert.DeserializeObject<GeneratorParameters>(File.ReadAllText(inputFile, Encoding.UTF8));
+        private const int BufferSize = 32768; // 32 Kilobytes
 
-            var templateDirectory = Path.GetDirectoryName(Path.GetFullPath(inputFile));
-            var templateFile = Path.Combine(templateDirectory, parameters.TemplateFile);
+        public void GenerateColorSchemeFiles(string generatorParametersFile, string templateFile, string outputPath = null)
+        {
+            var parameters = GetParametersFromFile(generatorParametersFile);
+
+            outputPath ??= Path.GetDirectoryName(Path.GetFullPath(templateFile));
+
+            Directory.CreateDirectory(outputPath);
+
             var templateContent = File.ReadAllText(templateFile, Encoding.UTF8);
 
             var colorSchemesForBaseColors = parameters.ColorSchemes.Where(x => string.IsNullOrEmpty(x.CustomBaseColorSchemeName))
@@ -26,68 +28,67 @@
             {
                 foreach (var colorScheme in colorSchemesForBaseColors)
                 {
-                    this.GenerateColorSchemeFile(parameters, templateDirectory, templateContent, baseColorScheme, colorScheme);
+                    this.GenerateColorSchemeFile(parameters, outputPath, templateContent, baseColorScheme, colorScheme);
                 }
             }
 
             foreach (var colorScheme in colorSchemesWithCustomBaseColor)
             {
-                BaseColorScheme baseColorScheme;
-                if (string.IsNullOrEmpty(colorScheme.BaseColorSchemeReference))
-                {
-                    baseColorScheme = new BaseColorScheme();
-                }
-                else
-                {
-                     baseColorScheme = parameters.BaseColorSchemes.First(x => x.Name == colorScheme.BaseColorSchemeReference).Clone();
-                }
+                var baseColorScheme = string.IsNullOrEmpty(colorScheme.BaseColorSchemeReference)
+                                                      ? new ThemeGeneratorBaseColorScheme()
+                                                      : parameters.BaseColorSchemes.First(x => x.Name == colorScheme.BaseColorSchemeReference).Clone();
 
                 baseColorScheme.Name = colorScheme.CustomBaseColorSchemeName;
 
-                this.GenerateColorSchemeFile(parameters, templateDirectory, templateContent, baseColorScheme, colorScheme);
+                this.GenerateColorSchemeFile(parameters, outputPath, templateContent, baseColorScheme, colorScheme);
             }
         }
 
-        public void GenerateColorSchemeFile(GeneratorParameters parameters, string templateDirectory, string templateContent, BaseColorScheme baseColorScheme, ColorScheme colorScheme)
+        public static ThemeGeneratorParameters GetParametersFromFile(string inputFile)
+        {
+            return GetParametersFromString(ReadAllTextShared(inputFile));
+        }
+
+        public static ThemeGeneratorParameters GetParametersFromString(string input)
+        {
+#if NETCOREAPP3_0
+            return System.Text.Json.JsonSerializer.Deserialize<ThemeGeneratorParameters>(input);
+#else
+            return new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<ThemeGeneratorParameters>(input);
+#endif
+        }
+
+        public void GenerateColorSchemeFile(ThemeGeneratorParameters parameters, string templateDirectory, string templateContent, ThemeGeneratorBaseColorScheme baseColorScheme, ThemeGeneratorColorScheme colorScheme)
         {
             var themeName = $"{baseColorScheme.Name}.{colorScheme.Name}";
             var themeDisplayName = $"{colorScheme.Name} ({baseColorScheme.Name})";
             var themeFilename = $"{themeName}.xaml";
-            var themeTempFileName = $"{themeFilename}_{Guid.NewGuid()}.xaml";
 
             var themeFile = Path.Combine(templateDirectory, themeFilename);
-            var themeTempFile = Path.Combine(Path.GetTempPath(), themeTempFileName);
 
-            try
+            var themeTempFileContent = this.GenerateColorSchemeFileContent(parameters, baseColorScheme, colorScheme, templateContent, themeName, themeDisplayName);
+
+            //Trace.WriteLine($"Comparing temp file \"{themeTempFile}\" to \"{themeFile}\"");
+
+            var fileHasToBeWritten = File.Exists(themeFile) == false
+                                     || ReadAllTextShared(themeFile) != themeTempFileContent;
+
+            if (fileHasToBeWritten)
             {
-                var fileContent = this.GenerateColorSchemeFileContent(parameters, baseColorScheme, colorScheme, templateContent, themeName, themeDisplayName);
-
-                File.WriteAllText(themeTempFile, fileContent, Encoding.UTF8);
-
-                Trace.WriteLine($"Comparing temp file \"{themeTempFile}\" to \"{themeFile}\"");
-
-                if (File.Exists(themeFile) == false
-                    || File.ReadAllText(themeFile) != File.ReadAllText(themeTempFile))
+                using (var sw = new StreamWriter(themeFile, false, Encoding.UTF8, BufferSize))
                 {
-                    File.Copy(themeTempFile, themeFile, true);
+                    sw.Write(themeTempFileContent);
+                }
 
-                    Trace.WriteLine($"Resource Dictionary saved to \"{themeFile}\".");
-                }
-                else
-                {
-                    Trace.WriteLine("New Resource Dictionary did not differ from existing file. No new file written.");
-                }
+                //Trace.WriteLine($"Resource Dictionary saved to \"{themeFile}\".");
             }
-            finally
+            else
             {
-                if (File.Exists(themeTempFile))
-                {
-                    File.Delete(themeTempFile);
-                }
+                //Trace.WriteLine("New Resource Dictionary did not differ from existing file. No new file written.");
             }
         }
 
-        public string GenerateColorSchemeFileContent(GeneratorParameters parameters, BaseColorScheme baseColorScheme, ColorScheme colorScheme, string templateContent, string themeName, string themeDisplayName)
+        public string GenerateColorSchemeFileContent(ThemeGeneratorParameters parameters, ThemeGeneratorBaseColorScheme baseColorScheme, ThemeGeneratorColorScheme colorScheme, string templateContent, string themeName, string themeDisplayName)
         {
             templateContent = templateContent.Replace("{{ThemeName}}", themeName);
             templateContent = templateContent.Replace("{{ThemeDisplayName}}", themeDisplayName);
@@ -111,34 +112,51 @@
 
             return templateContent;
         }
+
+        private static string ReadAllTextShared(string file)
+        {
+            Stream stream = null;
+            try
+            {
+                stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read, BufferSize);
+
+                using (var textReader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    stream = null;
+                    return textReader.ReadToEnd();
+                }
+            }
+            finally
+            {
+                stream?.Dispose();
+            }
+        }
     }
 
-    public class GeneratorParameters
+    public class ThemeGeneratorParameters
     {
-        public string TemplateFile { get; set; }
-
         public Dictionary<string, string> DefaultValues { get; set; } = new Dictionary<string, string>();
 
-        public BaseColorScheme[] BaseColorSchemes { get; set; }
+        public ThemeGeneratorBaseColorScheme[] BaseColorSchemes { get; set; }
 
-        public ColorScheme[] ColorSchemes { get; set; }
+        public ThemeGeneratorColorScheme[] ColorSchemes { get; set; }
     }
 
     [DebuggerDisplay("{" + nameof(Name) + "}")]
-    public class BaseColorScheme
+    public class ThemeGeneratorBaseColorScheme
     {
         public string Name { get; set; }
 
         public Dictionary<string, string> Values { get; set; }
 
-        public BaseColorScheme Clone()
+        public ThemeGeneratorBaseColorScheme Clone()
         {
-            return (BaseColorScheme)this.MemberwiseClone();
+            return (ThemeGeneratorBaseColorScheme)this.MemberwiseClone();
         }
     }
 
     [DebuggerDisplay("{" + nameof(Name) + "}")]
-    public class ColorScheme
+    public class ThemeGeneratorColorScheme
     {
         public string CustomBaseColorSchemeName { get; set; }
 

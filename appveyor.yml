@@ -1,22 +1,23 @@
 # http://www.appveyor.com/docs/appveyor-yml
 
-version: 3.0.0.{build}
 configuration: Release
-image: Visual Studio 2017
+image: Visual Studio 2019
+
+install:
+  - cinst dotnetcore-sdk --version=3.1.100
+  - choco install gitversion.portable
+
+before_build:
+  - gitversion /l console /output buildserver
 
 build_script:
-  - powershell ./build.ps1 -Target CI
-
-assembly_info:
-  patch: true
-  file: AssemblyInfo.*
-  assembly_version: "{version}"
-  assembly_file_version: "{version}"
-  assembly_informational_version: "{version}"
+  - dotnet restore
+  - dotnet build -c Release
+  - dotnet pack -c Release
 
 artifacts:
-  - path: Publish\**\*.nupkg
+  - path: bin\**\*.nupkg
     name: NuGet
 
-  - path: Publish\**\*.zip
-    name: zip
+nuget:
+  disable_publish_on_pr: true

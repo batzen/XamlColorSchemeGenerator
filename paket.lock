@@ -1,8 +1,0 @@
-SPECIFIC-VERSION: FALSE
-RESTRICTION: >= net45
-NUGET
-  remote: https://www.nuget.org/api/v2
-    7-Zip.CommandLine (18.1)
-    gitlink (3.1)
-    Newtonsoft.Json (10.0.1)
-    NuGet.CommandLine (4.7)

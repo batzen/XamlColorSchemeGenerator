@@ -2,50 +2,66 @@
 {
     using System;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
-    using System.Reflection;
-    using System.Runtime.InteropServices;
-    using System.Security.Cryptography;
-    using System.Text;
+    using System.Runtime;
     using System.Threading;
 
     internal class Program
     {
         private static int Main(string[] args)
         {
+            const string ProfileFile = "XamlColorSchemeGenerator.profile";
+
+            ProfileOptimization.SetProfileRoot(Environment.GetEnvironmentVariable("temp"));
+            ProfileOptimization.StartProfile(ProfileFile);
+
+            var stopwatch = Stopwatch.StartNew();
+
+            var verbose = args.Any(x => x.Equals("-v", StringComparison.OrdinalIgnoreCase));
+            var indexForGeneratorParametersFile = Array.IndexOf(args, "-g") + 1;
+            var indexForTemplateFile = Array.IndexOf(args, "-t") + 1;
+            var indexForOutputPath = Array.IndexOf(args, "-o") + 1;
+
             try
             {
-                var stopwatch = Stopwatch.StartNew();
-
-                // TODO: Add flags for some parameters.
-                if (args.Any())
+                if (verbose)
                 {
-                    var inputFile = args[0];
-
-                    using (var mutex = Lock(inputFile))
-                    {
-                        try
-                        {
-                            var generator = new ColorSchemeGenerator();
-
-                            generator.GenerateColorSchemeFiles(inputFile);
-                        }
-                        finally
-                        {
-                            mutex.ReleaseMutex();
-                        }
-                    }
+                    Console.WriteLine("Starting file generation with args:");
+                    Console.WriteLine(string.Join(" ", args));
                 }
-                else
+
+                var generatorParametersFile = indexForGeneratorParametersFile > 0 && args.Length >= indexForGeneratorParametersFile
+                    ? args[indexForGeneratorParametersFile] 
+                    : "GeneratorParameters.json";
+                var templateFile = indexForTemplateFile > 0 && args.Length >= indexForTemplateFile
+                    ? args[indexForTemplateFile + 1] 
+                    : "Theme.Template.xaml";
+                var outputPath = indexForOutputPath > 0 && args.Length >= indexForOutputPath
+                    ? args[indexForOutputPath]  
+                    : null;
+
+                using (var mutex = Lock(generatorParametersFile))
                 {
-                    Console.WriteLine("You have pass the generator input file as a commandline parameter.");
-                    return 1;
+                    try
+                    {
+                        var generator = new ColorSchemeGenerator();
+
+                        generator.GenerateColorSchemeFiles(generatorParametersFile, templateFile, outputPath);
+                    }
+                    finally
+                    {
+                        mutex.ReleaseMutex();
+                        stopwatch.Stop();
+                    }
                 }
 
                 // TODO: Add help output.
 
-                stopwatch.Stop();
-                Trace.WriteLine($"Generation time: {stopwatch.Elapsed}");
+                if (verbose)
+                {
+                    Console.WriteLine($"Generation time: {stopwatch.Elapsed}");
+                }
 
                 return 0;
             }
@@ -64,9 +80,8 @@
         }
 
         private static Mutex Lock(string file)
-        {
-            var appGuid = ((GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), false).GetValue(0)).Value;
-            var mutexName = $"Local\\{appGuid}_{GetMD5Hash(file)}";
+        {           
+            var mutexName = "Local\\XamlColorSchemeGenerator_" + Path.GetFileName(file);
 
             var mutex = new Mutex(false, mutexName);
 
@@ -77,19 +92,5 @@
             
             return mutex;
         }
-
-        private static string GetMD5Hash(string textToHash)
-        {
-            if (string.IsNullOrEmpty(textToHash))
-            {
-                return string.Empty;
-            }
-
-            var md5 = new MD5CryptoServiceProvider();
-            var bytesToHash = Encoding.Default.GetBytes(textToHash);
-            var result = md5.ComputeHash(bytesToHash); 
-
-            return BitConverter.ToString(result); 
-        } 
     }
 }

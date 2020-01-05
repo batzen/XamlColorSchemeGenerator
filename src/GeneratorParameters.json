@@ -1,5 +1,4 @@
 ﻿{
-  "TemplateFile": "Theme.Template.xaml",
   "DefaultValues": {
     "Fluent.Ribbon.Colors.IdealForegroundColor": "White",
     "Fluent.Ribbon.Colors.DarkIdealForegroundDisabledColor": "#ADADAD",
@@ -8,7 +7,7 @@
     "Fluent.Ribbon.Brushes.ApplicationMenuItem.CheckBox.Background": "#FFFCF1C2",
     "Fluent.Ribbon.Brushes.ApplicationMenuItem.CheckBox.BorderBrush": "#FFF29536"
   },
-  "BaseColors": [
+  "BaseColorSchemes": [
     {
       "Name": "Dark",
       "Values": {
@@ -63,6 +62,18 @@
     }
   ],
   "ColorSchemes": [
+    {
+      "CustomBaseColorName": "Colorful", 
+      "Name": "Blue",
+      "Values": {
+        "Fluent.Ribbon.Colors.AccentBaseColor": "#FF2B579A",
+        "Fluent.Ribbon.Colors.AccentColor80": "#CC2B579A",
+        "Fluent.Ribbon.Colors.AccentColor60": "#992B579A",
+        "Fluent.Ribbon.Colors.AccentColor40": "#662B579A",
+        "Fluent.Ribbon.Colors.AccentColor20": "#332B579A",
+        "Fluent.Ribbon.Colors.HighlightColor": "#FF086F9E"
+      }
+    },
     {
       "Name": "Blue",
       "Values": {
