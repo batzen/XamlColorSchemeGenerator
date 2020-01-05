@@ -25,6 +25,12 @@
 
             try
             {
+                if (verbose)
+                {
+                    Console.WriteLine("Starting file generation with args:");
+                    Console.WriteLine(string.Join(" ", args));
+                }
+
                 var generatorParametersFile = indexForGeneratorParametersFile > 0 && args.Length >= indexForGeneratorParametersFile
                     ? args[indexForGeneratorParametersFile] 
                     : "GeneratorParameters.json";
