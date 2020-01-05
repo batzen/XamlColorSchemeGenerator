@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <!-- Project properties -->
     <PropertyGroup>
@@ -8,7 +8,7 @@
         <Description>Generates color scheme xaml files while replacing certain parts of a template file.</Description>
     </PropertyGroup>
     <PropertyGroup>
-      <OutputType>WinExe</OutputType>
+      <OutputType>Exe</OutputType>
       <!--<ApplicationManifest>app.manifest</ApplicationManifest>-->
       <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
