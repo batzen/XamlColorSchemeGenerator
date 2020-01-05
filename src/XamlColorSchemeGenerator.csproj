@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <!-- Project properties -->
     <PropertyGroup>
@@ -27,13 +27,16 @@
 
     <ItemGroup>
       <None Include="..\LICENSE" Pack="true" PackagePath="licenses" />
-      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).dll.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).dll" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).exe" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\$(AssemblyName).runtimeconfig.json" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.dll" Pack="true" PackagePath="build/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.dll.config" Pack="true" PackagePath="build/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.exe" Pack="true" PackagePath="build/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.exe.config" Pack="true" PackagePath="build/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.runtimeconfig.json" Pack="true" PackagePath="build/netcoreapp3.0" Visible="False" />
 
-      <None Include="$(OutputPath)\net45\$(AssemblyName).exe.config" Pack="true" PackagePath="tools/net45" Visible="False" />
-      <None Include="$(OutputPath)\net45\$(AssemblyName).exe" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.dll" Pack="true" PackagePath="build/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.dll.config" Pack="true" PackagePath="build/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.exe.config" Pack="true" PackagePath="build/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.exe" Pack="true" PackagePath="build/net45" Visible="False" />
     </ItemGroup>
   
     <!-- NuGet -->
@@ -47,7 +50,10 @@
         <RepositoryUrl>https://github.com/batzen/XamlColorSchemeGenerator.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <GenerateLibraryLayout>true</GenerateLibraryLayout>
+
+        <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
+
     <!-- Sign assembly -->
     <PropertyGroup>
         <!--<SignAssembly>True</SignAssembly>-->
