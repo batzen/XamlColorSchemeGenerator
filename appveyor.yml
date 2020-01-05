@@ -1,11 +1,14 @@
 # http://www.appveyor.com/docs/appveyor-yml
 
-version: 4.0.0.{build}
 configuration: Release
 image: Visual Studio 2019
 
 install:
   - cinst dotnetcore-sdk --version=3.1.100
+  - choco install gitversion.portable -y
+
+before_build:
+  - gitversion /l console /output buildserver
 
 build_script:
   - dotnet build -c Release

@@ -68,6 +68,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="GitVersionTask" Version="5.*">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="All" />
     </ItemGroup>
 </Project>
