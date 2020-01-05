@@ -19,6 +19,8 @@
 
     <!-- Project properties -->
     <PropertyGroup>
+        <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>

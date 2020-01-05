@@ -2,8 +2,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <!-- Project properties -->
     <PropertyGroup>
-        <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
-        <!-- <AssemblyName>dotnet-XamlColorSchemeGenerator</AssemblyName> -->
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Description>Generates color scheme xaml files while replacing certain parts of a template file.</Description>
     </PropertyGroup>
