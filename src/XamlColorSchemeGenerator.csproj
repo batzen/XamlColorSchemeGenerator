@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <!-- Project properties -->
     <PropertyGroup>
@@ -27,16 +27,18 @@
 
     <ItemGroup>
       <None Include="..\LICENSE" Pack="true" PackagePath="licenses" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.dll" Pack="true" PackagePath="build/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.dll.config" Pack="true" PackagePath="build/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.exe" Pack="true" PackagePath="build/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.exe.config" Pack="true" PackagePath="build/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.runtimeconfig.json" Pack="true" PackagePath="build/netcoreapp3.0" Visible="False" />
+      <None Include="build/*.*" Pack="true" PackagePath="build" />
+      <None Include="buildMultiTargeting/*.*" Pack="true" PackagePath="buildMultiTargeting" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.dll" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.dll.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.exe" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.exe.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.runtimeconfig.json" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
 
-      <None Include="$(OutputPath)\net45\*.dll" Pack="true" PackagePath="build/net45" Visible="False" />
-      <None Include="$(OutputPath)\net45\*.dll.config" Pack="true" PackagePath="build/net45" Visible="False" />
-      <None Include="$(OutputPath)\net45\*.exe.config" Pack="true" PackagePath="build/net45" Visible="False" />
-      <None Include="$(OutputPath)\net45\*.exe" Pack="true" PackagePath="build/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.dll" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.dll.config" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.exe.config" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.exe" Pack="true" PackagePath="tools/net45" Visible="False" />
     </ItemGroup>
   
     <!-- NuGet -->
@@ -49,21 +51,22 @@
         <PackageReleaseNotes>https://github.com/batzen/XamlColorSchemeGenerator/releases</PackageReleaseNotes>
         <RepositoryUrl>https://github.com/batzen/XamlColorSchemeGenerator.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <GenerateLibraryLayout>true</GenerateLibraryLayout>
 
         <IncludeBuildOutput>false</IncludeBuildOutput>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
     </PropertyGroup>
 
     <!-- Sign assembly -->
     <PropertyGroup>
-        <!--<SignAssembly>True</SignAssembly>-->
+        <SignAssembly>True</SignAssembly>
         <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\SharedKey.snk</AssemblyOriginatorKeyFile>
         <DelaySign>false</DelaySign>
         <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="System.Web.Extensions" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" />
+      <Reference Include="System.Web.Extensions" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" PrivateAssets="All" />
       <PackageReference Include="System.Text.Json" Version="4.*" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
     </ItemGroup>
 
@@ -73,11 +76,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="GitVersionTask" Version="5.*">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
+      <PackageReference Include="GitVersionTask" Version="5.*" PrivateAssets="All" IncludeAssets="build; native" />
 
-      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="All" />
+      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="All" IncludeAssets="build; native" />
     </ItemGroup>
 </Project>
