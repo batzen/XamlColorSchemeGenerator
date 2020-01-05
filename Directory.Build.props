@@ -9,6 +9,7 @@
     <PropertyGroup>
         <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
