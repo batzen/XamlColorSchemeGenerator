@@ -67,6 +67,11 @@
       <PackageReference Include="System.Text.Json" Version="4.*" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
     </ItemGroup>
 
+    <!-- Configuration for GitVersionTask -->
+    <PropertyGroup>
+      <WriteVersionInfoToBuildLog>false</WriteVersionInfoToBuildLog>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="GitVersionTask" Version="5.*">
         <PrivateAssets>all</PrivateAssets>
