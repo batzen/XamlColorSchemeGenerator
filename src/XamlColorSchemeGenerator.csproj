@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <!-- Project properties -->
     <PropertyGroup>
@@ -65,7 +65,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="System.Web.Extensions" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" PrivateAssets="All" />
+      <Reference Include="System.Web.Extensions" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" />
       <PackageReference Include="System.Text.Json" Version="4.*" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
     </ItemGroup>
 </Project>
