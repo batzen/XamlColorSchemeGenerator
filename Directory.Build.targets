@@ -29,6 +29,4 @@
     <!-- "Full" and "pdbonly" are the same according to https://github.com/dotnet/roslyn/blob/master/docs/compilers/CSharp/CommandLine.md -->
     <DebugType>full</DebugType>
   </PropertyGroup>
-
-    <Target Name="ForceRestore" BeforeTargets="ResolvePackageAssets" DependsOnTargets="Restore" />
 </Project>
