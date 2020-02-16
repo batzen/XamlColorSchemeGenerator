@@ -5,18 +5,6 @@
         <!-- <RestoreLockedMode>true</RestoreLockedMode> -->
     </PropertyGroup>
 
-    <!-- AssemblyInfo -->
-    <PropertyGroup>
-        <Company>https://github.com/batzen/XamlColorSchemeGenerator</Company>
-        <Product>XamlColorSchemeGenerator</Product>
-        <Copyright>Copyright © 2015 - $([System.DateTime]::Today.ToString(yyyy)) Bastian Schmidt</Copyright>
-
-        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-
-        <VersionPrefix>4.0</VersionPrefix>
-        <AssemblyVersion>4.0</AssemblyVersion>
-    </PropertyGroup>
-
     <!-- Project properties -->
     <PropertyGroup>
         <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
@@ -25,25 +13,22 @@
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
         <NoWarn>$(NoWarn);CS1591</NoWarn>
         <NoError>$(NoError);CS1591</NoError>
         <!-- <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\ControlzEx.ruleset</CodeAnalysisRuleSet> -->
         <OutputPath>$(MSBuildThisFileDirectory)/bin/$(Configuration)/</OutputPath>
     </PropertyGroup>
 
-    <!-- SourceLink -->
+    <!-- Configuration for GitVersionTask -->
     <PropertyGroup>
-        <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <!-- Optional: Include PDB in the built .nupkg -->
-        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-        <!-- https://github.com/dotnet/sourcelink/blob/master/docs/README.md#embedallsources -->
-        <EmbedAllSources>true</EmbedAllSources>
+      <WriteVersionInfoToBuildLog>false</WriteVersionInfoToBuildLog>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="GitVersionTask" Version="5.*" PrivateAssets="All" IncludeAssets="build; native" />
+
+      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="All" IncludeAssets="build; native" />
+    </ItemGroup>
 
     <!-- Add the references for all projects and targets-->
     <ItemGroup>

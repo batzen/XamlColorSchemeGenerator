@@ -5,9 +5,10 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Description>Generates color scheme xaml files while replacing certain parts of a template file.</Description>
     </PropertyGroup>
+
     <PropertyGroup>
       <OutputType>Exe</OutputType>
-      <!--<ApplicationManifest>app.manifest</ApplicationManifest>-->
+      <ApplicationManifest>app.manifest</ApplicationManifest>
       <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
       <LangVersion>latest</LangVersion>
@@ -66,16 +67,5 @@
     <ItemGroup>
       <Reference Include="System.Web.Extensions" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" PrivateAssets="All" />
       <PackageReference Include="System.Text.Json" Version="4.*" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
-    </ItemGroup>
-
-    <!-- Configuration for GitVersionTask -->
-    <PropertyGroup>
-      <WriteVersionInfoToBuildLog>false</WriteVersionInfoToBuildLog>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <PackageReference Include="GitVersionTask" Version="5.*" PrivateAssets="All" IncludeAssets="build; native" />
-
-      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="All" IncludeAssets="build; native" />
     </ItemGroup>
 </Project>
