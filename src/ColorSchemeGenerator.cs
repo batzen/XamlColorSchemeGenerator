@@ -68,7 +68,7 @@ namespace XamlColorSchemeGenerator
 
             var themeTempFileContent = this.GenerateColorSchemeFileContent(parameters, baseColorScheme, colorScheme, templateContent, themeName, themeDisplayName);
 
-            //Trace.WriteLine($"Comparing temp file \"{themeTempFile}\" to \"{themeFile}\"");
+            Trace.WriteLine($"Checking \"{themeFile}\"...");
 
             var fileHasToBeWritten = File.Exists(themeFile) == false
                                      || ReadAllTextShared(themeFile) != themeTempFileContent;
@@ -80,11 +80,11 @@ namespace XamlColorSchemeGenerator
                     sw.Write(themeTempFileContent);
                 }
 
-                //Trace.WriteLine($"Resource Dictionary saved to \"{themeFile}\".");
+                Trace.WriteLine($"Resource Dictionary saved to \"{themeFile}\".");
             }
             else
             {
-                //Trace.WriteLine("New Resource Dictionary did not differ from existing file. No new file written.");
+                Trace.WriteLine("New Resource Dictionary did not differ from existing file. No new file written.");
             }
         }
 
