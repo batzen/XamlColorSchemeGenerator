@@ -68,4 +68,13 @@
       <Reference Include="System.Web.Extensions" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" />
       <PackageReference Include="System.Text.Json" Version="4.*" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Update="GeneratorParameters.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Theme.Template.xaml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>
