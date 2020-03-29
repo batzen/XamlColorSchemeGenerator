@@ -5,7 +5,12 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     mc:Ignorable="options d">
-    <system:String x:Key="Fluent.Ribbon.Theme">{{ThemeName}}</system:String>
+    <system:String x:Key="Theme.Name">{{ThemeName}}</system:String>
+    <system:String x:Key="Theme.Origin">Fluent.Ribbon</system:String>
+    <system:String x:Key="Theme.DisplayName">{{ThemeDisplayName}}</system:String>
+    <system:String x:Key="Theme.BaseColorScheme">{{BaseColorScheme}}</system:String>
+    <system:String x:Key="Theme.ColorScheme">{{ColorScheme}}</system:String>
+    <system:String x:Key="Theme.AlternativeColorScheme">{{AlternativeColorScheme}}</system:String>
     
     <!-- COLORS -->
     

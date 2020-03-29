@@ -1,82 +1,80 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9572E64E-0B2F-407B-AC14-141941CB7D6E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>XamlColorSchemeGenerator</RootNamespace>
-    <AssemblyName>XamlColorSchemeGenerator</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>SharedKey.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ColorSchemeGenerator.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <Content Include="GeneratorParameters.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="paket.references" />
-    <None Include="SharedKey.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Theme.Template.xaml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v4.7.1')">
-      <ItemGroup>
-        <Reference Include="Newtonsoft.Json">
-          <HintPath>..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
-          <Private>True</Private>
-          <SpecificVersion>False</SpecificVersion>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <!-- Project properties -->
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Description>Generates color scheme xaml files while replacing certain parts of a template file.</Description>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <OutputType>Exe</OutputType>
+      <ApplicationManifest>app.manifest</ApplicationManifest>
+      <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+
+      <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <AppConfigWithTargetPath Include="App.net.config" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false">
+          <TargetPath>$(AssemblyName).exe.config</TargetPath>
+      </AppConfigWithTargetPath>
+
+      <AppConfigWithTargetPath Include="App.netcoreapp.config" Condition="$(DefineConstants.Contains(NETCOREAPP))">
+          <TargetPath>$(AssemblyName).exe.config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\LICENSE" Pack="true" PackagePath="licenses" />
+      <None Include="build/*.*" Pack="true" PackagePath="build" />
+      <None Include="buildMultiTargeting/*.*" Pack="true" PackagePath="buildMultiTargeting" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.dll" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.dll.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.exe" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.exe.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\*.runtimeconfig.json" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+
+      <None Include="$(OutputPath)\net45\*.dll" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.dll.config" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.exe.config" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\*.exe" Pack="true" PackagePath="tools/net45" Visible="False" />
+    </ItemGroup>
+  
+    <!-- NuGet -->
+    <PropertyGroup>
+        <Authors>Bastian Schmidt</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/batzen/XamlColorSchemeGenerator</PackageProjectUrl>
+        <!-- <PackageIconUrl></PackageIconUrl> -->
+        <PackageTags>xaml color scheme generator</PackageTags>
+        <PackageReleaseNotes>https://github.com/batzen/XamlColorSchemeGenerator/releases</PackageReleaseNotes>
+        <RepositoryUrl>https://github.com/batzen/XamlColorSchemeGenerator.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    </PropertyGroup>
+
+    <!-- Sign assembly -->
+    <PropertyGroup>
+        <SignAssembly>True</SignAssembly>
+        <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\SharedKey.snk</AssemblyOriginatorKeyFile>
+        <DelaySign>false</DelaySign>
+        <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="System.Web.Extensions" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" />
+      <PackageReference Include="System.Text.Json" Version="4.*" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="GeneratorParameters.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Theme.Template.xaml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>
