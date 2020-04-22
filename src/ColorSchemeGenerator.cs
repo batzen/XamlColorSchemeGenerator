@@ -36,6 +36,17 @@ namespace XamlColorSchemeGenerator
 
             foreach (var baseColorScheme in parameters.BaseColorSchemes)
             {
+                if (colorSchemesWithoutVariantName.Count == 0
+                    && colorSchemesWithVariantName.Count == 0)
+                {
+                    var themeName = baseColorScheme.Name;
+                    var colorSchemeName = string.Empty;
+                    var alternativeColorSchemeName = string.Empty;
+                    var themeDisplayName = baseColorScheme.Name;
+
+                    this.GenerateColorSchemeFile(outputPath, templateContent, themeName, themeDisplayName, baseColorScheme.Name, colorSchemeName, alternativeColorSchemeName, baseColorScheme.Values, parameters.DefaultValues);
+                }
+
                 foreach (var colorScheme in colorSchemesWithoutVariantName)
                 {
                     var themeName = $"{baseColorScheme.Name}.{colorScheme.Name}";
