@@ -35,7 +35,7 @@
                     ? args[indexForGeneratorParametersFile] 
                     : "GeneratorParameters.json";
                 var templateFile = indexForTemplateFile > 0 && args.Length >= indexForTemplateFile
-                    ? args[indexForTemplateFile + 1] 
+                    ? args[indexForTemplateFile] 
                     : "Theme.Template.xaml";
                 var outputPath = indexForOutputPath > 0 && args.Length >= indexForOutputPath
                     ? args[indexForOutputPath]  

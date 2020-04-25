@@ -18,7 +18,7 @@ For an example on how this tool works see the [generator input](src/GeneratorPar
 `XamlColorSchemeGenerator` accepts the following commandline parameters:
 
 - `-g "Path_To_Your_GeneratorParameters.json"`
-- `-g "Path_To_Your_Theme.Template.xaml"`
+- `-t "Path_To_Your_Theme.Template.xaml"`
 - `-o "Path_To_Your_Output_Folder"`
 - `-v` = enables verbose console output
 
