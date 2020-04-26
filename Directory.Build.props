@@ -19,15 +19,8 @@
         <OutputPath>$(MSBuildThisFileDirectory)/bin/$(Configuration)/</OutputPath>
     </PropertyGroup>
 
-    <!-- Configuration for GitVersionTask -->
-    <PropertyGroup>
-      <WriteVersionInfoToBuildLog>false</WriteVersionInfoToBuildLog>
-      <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
-    </PropertyGroup>
-
+    <!-- Build references -->
     <ItemGroup>
-      <PackageReference Include="GitVersionTask" Version="5.*" PrivateAssets="All" IncludeAssets="build; native" />
-
       <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="All" IncludeAssets="build; native" />
     </ItemGroup>
 

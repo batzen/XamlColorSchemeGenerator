@@ -1,5 +1,4 @@
 # http://www.appveyor.com/docs/appveyor-yml
-
 branches:
   only:
     - develop
@@ -7,25 +6,16 @@ branches:
     - /v\d*\.\d*\.\d*/
 
 image: Visual Studio 2019
-configuration: Release
-platform: Any CPU
 test: off
 
 install:
   - cinst dotnetcore-sdk --version=3.1.200
-  - choco install gitversion.portable
-
-before_build:
-  - gitversion /l console /output buildserver
 
 build_script:
-  - dotnet restore
-  - dotnet build -c Release
-  - dotnet pack -c Release
+  - ps: .\build.ps1 CI
 
 artifacts:
-  - path: bin\**\*.nupkg
-    name: NuGet
+  - path: \artifacts\*.*
 
 nuget:
   disable_publish_on_pr: true
