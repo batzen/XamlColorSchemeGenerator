@@ -52,7 +52,8 @@ class Build : NukeBuild
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
 
-    AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
+    [Parameter]
+    readonly AbsolutePath ArtifactsDirectory = RootDirectory / "artifacts";
 
     Target Restore => _ => _
         .Executes(() =>
@@ -68,6 +69,7 @@ class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
+                .SetVersion(GitVersion.MajorMinorPatch)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
