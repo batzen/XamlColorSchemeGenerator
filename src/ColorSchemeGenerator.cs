@@ -28,10 +28,10 @@ namespace XamlColorSchemeGenerator
             var templateContent = File.ReadAllText(templateFile, Encoding.UTF8);
 
             var colorSchemesWithoutVariantName = parameters.ColorSchemes
-                .Where(x => string.IsNullOrEmpty(x.ColorSchemeVariantName))
+                .Where(x => string.IsNullOrEmpty(x.ForColorSchemeVariant) || x.ForColorSchemeVariant == "None")
                 .ToList();
             var colorSchemesWithVariantName = parameters.ColorSchemes
-                .Where(x => string.IsNullOrEmpty(x.ColorSchemeVariantName) == false)
+                .Where(x => string.IsNullOrEmpty(x.ForColorSchemeVariant) == false && x.ForColorSchemeVariant != "None")
                 .ToList();
 
             foreach (var baseColorScheme in parameters.BaseColorSchemes)
@@ -44,29 +44,46 @@ namespace XamlColorSchemeGenerator
                     var alternativeColorSchemeName = string.Empty;
                     var themeDisplayName = baseColorScheme.Name;
 
-                    this.GenerateColorSchemeFile(outputPath, templateContent, themeName, themeDisplayName, baseColorScheme.Name, colorSchemeName, alternativeColorSchemeName, baseColorScheme.Values, parameters.DefaultValues);
+                    this.GenerateColorSchemeFile(outputPath, templateContent, themeName, themeDisplayName, baseColorScheme.Name, colorSchemeName, alternativeColorSchemeName, false, baseColorScheme.Values, parameters.DefaultValues);
                 }
 
                 foreach (var colorScheme in colorSchemesWithoutVariantName)
                 {
+                    if (string.IsNullOrEmpty(colorScheme.ForBaseColor) == false
+                        && colorScheme.ForBaseColor != baseColorScheme.Name)
+                    {
+                        continue;
+                    }
+
                     var themeName = $"{baseColorScheme.Name}.{colorScheme.Name}";
                     var colorSchemeName = colorScheme.Name;
                     var alternativeColorSchemeName = colorScheme.Name;
                     var themeDisplayName = $"{colorSchemeName} ({baseColorScheme.Name})";
 
-                    this.GenerateColorSchemeFile(outputPath, templateContent, themeName, themeDisplayName, baseColorScheme.Name, colorSchemeName, alternativeColorSchemeName, colorScheme.Values, baseColorScheme.Values, parameters.DefaultValues);
+                    this.GenerateColorSchemeFile(outputPath, templateContent, themeName, themeDisplayName, baseColorScheme.Name, colorSchemeName, alternativeColorSchemeName, colorScheme.IsHighContrast, colorScheme.Values, baseColorScheme.Values, parameters.DefaultValues);
                 }
 
                 foreach (var colorSchemeVariant in parameters.AdditionalColorSchemeVariants)
                 {
                     foreach (var colorScheme in colorSchemesWithoutVariantName.Concat(colorSchemesWithVariantName))
                     {
+                        if (string.IsNullOrEmpty(colorScheme.ForBaseColor) == false
+                            && colorScheme.ForBaseColor != baseColorScheme.Name)
+                        {
+                            continue;
+                        }
+
+                        if (colorScheme.ForColorSchemeVariant == "None")
+                        {
+                            continue;
+                        }
+
                         var themeName = $"{baseColorScheme.Name}.{colorScheme.Name}.{colorSchemeVariant.Name}";
                         var colorSchemeName = $"{colorScheme.Name}.{colorSchemeVariant.Name}";
                         var alternativeColorSchemeName = colorScheme.Name;
                         var themeDisplayName = $"{colorSchemeName} ({baseColorScheme.Name})";
 
-                        this.GenerateColorSchemeFile(outputPath, templateContent, themeName, themeDisplayName, baseColorScheme.Name, colorSchemeName, alternativeColorSchemeName, colorScheme.Values, colorSchemeVariant.Values, baseColorScheme.Values, parameters.DefaultValues);
+                        this.GenerateColorSchemeFile(outputPath, templateContent, themeName, themeDisplayName, baseColorScheme.Name, colorSchemeName, alternativeColorSchemeName, colorScheme.IsHighContrast, colorScheme.Values, colorSchemeVariant.Values, baseColorScheme.Values, parameters.DefaultValues);
                     }
                 }
             }
@@ -96,13 +113,23 @@ namespace XamlColorSchemeGenerator
             }
         }
 
-        public void GenerateColorSchemeFile(string templateDirectory, string templateContent, string themeName, string themeDisplayName, string baseColorScheme, string colorScheme, string alternativeColorScheme, params Dictionary<string, string>[] valueSources)
+        public void GenerateColorSchemeFile(string templateDirectory, string templateContent, string themeName, string themeDisplayName, string baseColorScheme, string colorScheme, string alternativeColorScheme, bool isHighContrast, params Dictionary<string, string>[] valueSources)
         {
-            var themeFilename = $"{themeName}.xaml";
+            if (isHighContrast)
+            {
+                themeDisplayName += " HighContrast";
+            }
 
-            var themeFile = Path.Combine(templateDirectory, themeFilename);
+            var themeTempFileContent = ThemeGenerator.Current.GenerateColorSchemeFileContent(templateContent, themeName, themeDisplayName, baseColorScheme, colorScheme, alternativeColorScheme, isHighContrast, valueSources);
 
-            var themeTempFileContent = ThemeGenerator.Current.GenerateColorSchemeFileContent(templateContent, themeName, themeDisplayName, baseColorScheme, colorScheme, alternativeColorScheme, valueSources);
+            var themeFilename = $"{themeName}";
+
+            if (isHighContrast)
+            {
+                themeFilename += ".HighContrast";
+            }
+
+            var themeFile = Path.Combine(templateDirectory, $"{themeFilename}.xaml");
 
             Trace.WriteLine($"Checking \"{themeFile}\"...");
 

@@ -11,6 +11,9 @@
     <system:String x:Key="Theme.BaseColorScheme">{{BaseColorScheme}}</system:String>
     <system:String x:Key="Theme.ColorScheme">{{ColorScheme}}</system:String>
     <system:String x:Key="Theme.AlternativeColorScheme">{{AlternativeColorScheme}}</system:String>
+    <Color x:Key="Theme.PrimaryAccentColor">{{Fluent.Ribbon.Colors.AccentBaseColor}}</Color>
+    <SolidColorBrush x:Key="Theme.ShowcaseBrush" Color="{{Fluent.Ribbon.Colors.AccentBaseColor}}" options:Freeze="True" />
+    <system:Boolean x:Key="Theme.IsHighContrast">{{IsHighContrast}}</system:Boolean>
     
     <!-- COLORS -->
     

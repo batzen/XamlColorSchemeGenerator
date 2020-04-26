@@ -25,15 +25,18 @@ namespace XamlColorSchemeGenerator
 #endif
         }
 
-        // The order of the passed valueSources is important.
-        // More specialized/concrete values must be passed first and more generic ones must follow.
-        public virtual string GenerateColorSchemeFileContent(string templateContent, string themeName, string themeDisplayName, string baseColorScheme, string colorScheme, string alternativeColorScheme, params Dictionary<string, string>[] valueSources)
+        /// <summary>
+        /// The order of the passed valueSources is important.
+        /// More specialized/concrete values must be passed first and more generic ones must follow.
+        /// </summary>
+        public virtual string GenerateColorSchemeFileContent(string templateContent, string themeName, string themeDisplayName, string baseColorScheme, string colorScheme, string alternativeColorScheme, bool isHighContrast, params Dictionary<string, string>[] valueSources)
         {
             templateContent = templateContent.Replace("{{ThemeName}}", themeName);
             templateContent = templateContent.Replace("{{ThemeDisplayName}}", themeDisplayName);
             templateContent = templateContent.Replace("{{BaseColorScheme}}", baseColorScheme);
             templateContent = templateContent.Replace("{{ColorScheme}}", colorScheme);
             templateContent = templateContent.Replace("{{AlternativeColorScheme}}", alternativeColorScheme);
+            templateContent = templateContent.Replace("{{IsHighContrast}}", isHighContrast.ToString());
 
             foreach (var valueSource in valueSources)
             {
@@ -82,7 +85,11 @@ namespace XamlColorSchemeGenerator
         {
             public string Name { get; set; } = string.Empty;
 
-            public string ColorSchemeVariantName { get; set; } = string.Empty;
+            public string ForBaseColor { get; set; } = string.Empty;
+
+            public string ForColorSchemeVariant { get; set; } = string.Empty;
+
+            public bool IsHighContrast { get; set; }
 
             public Dictionary<string, string> Values { get; set; } = new Dictionary<string, string>();
         }
