@@ -31,22 +31,12 @@ The tool then also uses the current working dir as the output folder.
 
 ```xml
     <ItemGroup>
-      <PackageReference Include="XamlColorSchemeGenerator" version="3.*" privateAssets="All" />
+      <PackageReference Include="XamlColorSchemeGenerator" version="4-*" privateAssets="All" includeAssets="build" />
     </ItemGroup>
 
-    <Target Name="GenerateXamlFilesInner">
-      <PropertyGroup>
-        <XamlColorSchemeGeneratorVersion Condition="'%(PackageReference.Identity)' == 'XamlColorSchemeGenerator'">%(PackageReference.Version)</XamlColorSchemeGeneratorVersion>
-        <XamlColorSchemeGeneratorPath>$(NuGetPackageRoot)/xamlcolorschemegenerator/$(XamlColorSchemeGeneratorVersion)/tools/XamlColorSchemeGenerator.exe</XamlColorSchemeGeneratorPath>
-      </PropertyGroup>
+    <Target Name="GenerateXamlFiles" BeforeTargets="DispatchToInnerBuilds">
       <!-- Generate theme files -->
-      <Exec Command="&quot;$(XamlColorSchemeGeneratorPath)&quot;" WorkingDirectory="$(MSBuildProjectDirectory)/Themes/Themes" />
-    </Target>
-
-    <!-- Key to generating the xaml files at the right point in time is to do this before DispatchToInnerBuilds -->
-    <Target Name="GenerateXamlFiles" BeforeTargets="DispatchToInnerBuilds;BeforeBuild">
-      <!--TargetFramework=once is critical here, as it will not execute task from same project with same properties multiple times. 
-        We need to unify TargetFramework between empty, net45, netcoreapp3.0 etc.-->
-      <MSBuild Projects="$(MSBuildProjectFile)" Targets="GenerateXamlFilesInner" Properties="TargetFramework=once" />
+      <Message Text="$(XamlColorSchemeGeneratorExecutable)" />
+      <Exec Command="&quot;$(XamlColorSchemeGeneratorExecutable)&quot;" WorkingDirectory="$(MSBuildProjectDirectory)/Themes/Themes" />
     </Target>
 ```
