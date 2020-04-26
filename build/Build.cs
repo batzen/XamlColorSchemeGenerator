@@ -26,12 +26,29 @@ class Build : NukeBuild
 
     public static int Main () => Execute<Build>(x => x.Compile);
 
+    protected override void OnBuildInitialized()
+    {
+        base.OnBuildInitialized();
+
+        ProcessTasks.DefaultLogInvocation = true;
+        ProcessTasks.DefaultLogOutput = true;
+
+        Console.WriteLine("IsLocalBuild           : {0}", IsLocalBuild);
+        Console.WriteLine("Informational   Version: {0}", GitVersion.InformationalVersion);
+        Console.WriteLine("SemVer          Version: {0}", GitVersion.SemVer);
+        Console.WriteLine("AssemblySemVer  Version: {0}", GitVersion.AssemblySemVer);
+        Console.WriteLine("MajorMinorPatch Version: {0}", GitVersion.MajorMinorPatch);
+        Console.WriteLine("NuGet           Version: {0}", GitVersion.NuGetVersion);
+    }
+
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
     [Solution] readonly Solution Solution;
+
     [GitRepository] readonly GitRepository GitRepository;
-    [GitVersion] readonly GitVersion GitVersion;
+    
+    [GitVersion(Framework = "netcoreapp3.1")] readonly GitVersion GitVersion;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
 
