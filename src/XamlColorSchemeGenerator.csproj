@@ -29,17 +29,16 @@
       <None Include="build/*.*" Pack="true" PackagePath="build" />
       <None Include="buildMultiTargeting/*.*" Pack="true" PackagePath="buildMultiTargeting" />
 
-      <None Include="$(OutputPath)\net45\*.dll" Pack="true" PackagePath="tools/net45" Visible="False" />
-      <None Include="$(OutputPath)\net45\*.dll.config" Pack="true" PackagePath="tools/net45" Visible="False" />
-      <None Include="$(OutputPath)\net45\*.exe.config" Pack="true" PackagePath="tools/net45" Visible="False" />
-      <None Include="$(OutputPath)\net45\*.exe" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\publish\$(AssemblyName).exe" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\publish\$(AssemblyName).exe.config" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\publish\$(AssemblyName).pdb" Pack="true" PackagePath="tools/net45" Visible="False" />
 
-      <None Include="$(OutputPath)\netcoreapp3.0\*.dll" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.dll.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.exe" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.exe.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.deps.json" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.runtimeconfig.json" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\publish\$(AssemblyName).dll" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\publish\$(AssemblyName).dll.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\publish\$(AssemblyName).exe" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\publish\$(AssemblyName).deps.json" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\publish\$(AssemblyName).runtimeconfig.json" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.0\publish\$(AssemblyName).pdb" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
     </ItemGroup>
   
     <!-- NuGet -->
