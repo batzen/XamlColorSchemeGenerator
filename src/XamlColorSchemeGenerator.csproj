@@ -9,7 +9,6 @@
     <PropertyGroup>
       <OutputType>Exe</OutputType>
       <ApplicationManifest>app.manifest</ApplicationManifest>
-      <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
       <LangVersion>latest</LangVersion>
     </PropertyGroup>
@@ -33,6 +32,7 @@
       <None Include="$(OutputPath)\net45\publish\$(AssemblyName).exe.config" Pack="true" PackagePath="tools/net45" Visible="False" />
       <None Include="$(OutputPath)\net45\publish\$(AssemblyName).pdb" Pack="true" PackagePath="tools/net45" Visible="False" />
 
+      <None Include="$(OutputPath)\netcoreapp3.1\publish\System.Text.Json.dll" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
       <None Include="$(OutputPath)\netcoreapp3.1\publish\$(AssemblyName).dll" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
       <None Include="$(OutputPath)\netcoreapp3.1\publish\$(AssemblyName).dll.config" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
       <None Include="$(OutputPath)\netcoreapp3.1\publish\$(AssemblyName).exe" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
@@ -67,7 +67,7 @@
 
     <ItemGroup>
       <Reference Include="System.Web.Extensions" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" />
-      <PackageReference Include="System.Text.Json" Version="4.*" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
+      <PackageReference Include="System.Text.Json" Version="4.*" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
     </ItemGroup>
 
     <ItemGroup>
