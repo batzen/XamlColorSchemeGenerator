@@ -96,7 +96,7 @@ class Build : NukeBuild
                .SetAssemblyVersion(GitVersion.AssemblySemVer)
                .SetFileVersion(GitVersion.AssemblySemFileVer)
                .SetInformationalVersion(GitVersion.InformationalVersion)
-               .SetFramework("netcoreapp3.0"));
+               .SetFramework("netcoreapp3.1"));
 
             DotNetPack(s => s
                 .SetVersion(GitVersion.NuGetVersion)
