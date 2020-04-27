@@ -82,10 +82,27 @@ class Build : NukeBuild
         {
             EnsureCleanDirectory(ArtifactsDirectory);
 
+            DotNetPublish(s => s
+                .SetConfiguration(Configuration)
+                .SetVersion(GitVersion.MajorMinorPatch)
+                .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetFramework("net45"));
+
+            DotNetPublish(s => s
+               .SetConfiguration(Configuration)
+               .SetVersion(GitVersion.MajorMinorPatch)
+               .SetAssemblyVersion(GitVersion.AssemblySemVer)
+               .SetFileVersion(GitVersion.AssemblySemFileVer)
+               .SetInformationalVersion(GitVersion.InformationalVersion)
+               .SetFramework("netcoreapp3.0"));
+
             DotNetPack(s => s
                 .SetVersion(GitVersion.NuGetVersion)
                 .SetConfiguration(Configuration)
                 .SetOutputDirectory(ArtifactsDirectory)
+                .EnableNoBuild()
                 .EnableNoRestore());
         });
 
