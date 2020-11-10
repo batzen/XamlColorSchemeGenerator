@@ -67,7 +67,7 @@
 
     <ItemGroup>
       <Reference Include="System.Web.Extensions" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" />
-      <PackageReference Include="System.Text.Json" Version="4.*" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
+      <PackageReference Include="System.Text.Json" Version="5.*" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
     </ItemGroup>
 
     <ItemGroup>
