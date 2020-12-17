@@ -82,8 +82,8 @@
   ],
   "ColorSchemes": [
     {
-      "ColorSchemeVariantName": "Colorful",
       "Name": "Blue",
+      "ForColorSchemeVariant": "Colorful",
       "Values": {
         "Fluent.Ribbon.Colors.AccentBaseColor": "#FF2B579A",
         "Fluent.Ribbon.Colors.AccentColor80": "#CC2B579A",
@@ -91,6 +91,33 @@
         "Fluent.Ribbon.Colors.AccentColor40": "#662B579A",
         "Fluent.Ribbon.Colors.AccentColor20": "#332B579A",
         "Fluent.Ribbon.Colors.HighlightColor": "#FF086F9E"
+      }
+    },
+    {
+      "Name": "Green",
+      "ForBaseColor": "Light",
+      "ForColorSchemeVariant": "None",
+      "IsHighContrast": true,
+      "Values": {
+        "Fluent.Ribbon.Colors.AccentBaseColor": "#FF60A917",
+        "Fluent.Ribbon.Colors.AccentColor80": "#CC60A917",
+        "Fluent.Ribbon.Colors.AccentColor60": "#9960A917",
+        "Fluent.Ribbon.Colors.AccentColor40": "#6660A917",
+        "Fluent.Ribbon.Colors.AccentColor20": "#3360A917",
+        "Fluent.Ribbon.Colors.HighlightColor": "#FF477D11"
+      }
+    },
+    {
+      "Name": "Green",
+      "ForBaseColor": "Dark",
+      "IsHighContrast": true,
+      "Values": {
+        "Fluent.Ribbon.Colors.AccentBaseColor": "#FF60A917",
+        "Fluent.Ribbon.Colors.AccentColor80": "#CC60A917",
+        "Fluent.Ribbon.Colors.AccentColor60": "#9960A917",
+        "Fluent.Ribbon.Colors.AccentColor40": "#6660A917",
+        "Fluent.Ribbon.Colors.AccentColor20": "#3360A917",
+        "Fluent.Ribbon.Colors.HighlightColor": "#FF477D11"
       }
     },
     {

@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Runtime;
     using System.Threading;
 
@@ -18,6 +19,7 @@
 
             var stopwatch = Stopwatch.StartNew();
 
+            var nologo = args.Any(x => x.Equals("-nologo", StringComparison.OrdinalIgnoreCase));
             var verbose = args.Any(x => x.Equals("-v", StringComparison.OrdinalIgnoreCase));
             var indexForGeneratorParametersFile = Array.IndexOf(args, "-g") + 1;
             var indexForTemplateFile = Array.IndexOf(args, "-t") + 1;
@@ -25,6 +27,13 @@
 
             try
             {
+                if (nologo == false)
+                {
+                    var attribute = (AssemblyFileVersionAttribute)Attribute.GetCustomAttribute(typeof(Program).Assembly, typeof(AssemblyFileVersionAttribute));
+                    var version = attribute.Version;
+                    Console.WriteLine($"XamlColorSchemeGenerator - {version}");
+                }
+
                 if (verbose)
                 {
                     Console.WriteLine("Starting file generation with args:");
@@ -35,7 +44,7 @@
                     ? args[indexForGeneratorParametersFile] 
                     : "GeneratorParameters.json";
                 var templateFile = indexForTemplateFile > 0 && args.Length >= indexForTemplateFile
-                    ? args[indexForTemplateFile + 1] 
+                    ? args[indexForTemplateFile] 
                     : "Theme.Template.xaml";
                 var outputPath = indexForOutputPath > 0 && args.Length >= indexForOutputPath
                     ? args[indexForOutputPath]  

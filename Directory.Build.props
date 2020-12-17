@@ -7,7 +7,7 @@
 
     <!-- Project properties -->
     <PropertyGroup>
-        <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
+        <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
@@ -19,19 +19,13 @@
         <OutputPath>$(MSBuildThisFileDirectory)/bin/$(Configuration)/</OutputPath>
     </PropertyGroup>
 
-    <!-- Configuration for GitVersionTask -->
-    <PropertyGroup>
-      <WriteVersionInfoToBuildLog>false</WriteVersionInfoToBuildLog>
-    </PropertyGroup>
-
+    <!-- Build references -->
     <ItemGroup>
-      <PackageReference Include="GitVersionTask" Version="5.*" PrivateAssets="All" IncludeAssets="build; native" />
-
       <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="All" IncludeAssets="build; native" />
     </ItemGroup>
 
     <!-- Add the references for all projects and targets-->
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2019.*" PrivateAssets="All" includeAssets="build;compile" />
+        <PackageReference Include="JetBrains.Annotations" Version="2020.*" PrivateAssets="All" includeAssets="build;compile" />
     </ItemGroup>
 </Project>

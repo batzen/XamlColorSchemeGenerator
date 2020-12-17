@@ -9,7 +9,6 @@
     <PropertyGroup>
       <OutputType>Exe</OutputType>
       <ApplicationManifest>app.manifest</ApplicationManifest>
-      <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
       <LangVersion>latest</LangVersion>
     </PropertyGroup>
@@ -28,16 +27,18 @@
       <None Include="..\LICENSE" Pack="true" PackagePath="licenses" />
       <None Include="build/*.*" Pack="true" PackagePath="build" />
       <None Include="buildMultiTargeting/*.*" Pack="true" PackagePath="buildMultiTargeting" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.dll" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.dll.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.exe" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.exe.config" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
-      <None Include="$(OutputPath)\netcoreapp3.0\*.runtimeconfig.json" Pack="true" PackagePath="tools/netcoreapp3.0" Visible="False" />
 
-      <None Include="$(OutputPath)\net45\*.dll" Pack="true" PackagePath="tools/net45" Visible="False" />
-      <None Include="$(OutputPath)\net45\*.dll.config" Pack="true" PackagePath="tools/net45" Visible="False" />
-      <None Include="$(OutputPath)\net45\*.exe.config" Pack="true" PackagePath="tools/net45" Visible="False" />
-      <None Include="$(OutputPath)\net45\*.exe" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\publish\$(AssemblyName).exe" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\publish\$(AssemblyName).exe.config" Pack="true" PackagePath="tools/net45" Visible="False" />
+      <None Include="$(OutputPath)\net45\publish\$(AssemblyName).pdb" Pack="true" PackagePath="tools/net45" Visible="False" />
+
+      <None Include="$(OutputPath)\netcoreapp3.1\publish\System.Text.Json.dll" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.1\publish\$(AssemblyName).dll" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.1\publish\$(AssemblyName).dll.config" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.1\publish\$(AssemblyName).exe" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.1\publish\$(AssemblyName).deps.json" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.1\publish\$(AssemblyName).runtimeconfig.json" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
+      <None Include="$(OutputPath)\netcoreapp3.1\publish\$(AssemblyName).pdb" Pack="true" PackagePath="tools/netcoreapp3.1" Visible="False" />
     </ItemGroup>
   
     <!-- NuGet -->
@@ -66,7 +67,7 @@
 
     <ItemGroup>
       <Reference Include="System.Web.Extensions" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false" />
-      <PackageReference Include="System.Text.Json" Version="4.*" PrivateAssets="All" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
+      <PackageReference Include="System.Text.Json" Version="4.*" Condition="$(DefineConstants.Contains(NETCOREAPP))" />
     </ItemGroup>
 
     <ItemGroup>
